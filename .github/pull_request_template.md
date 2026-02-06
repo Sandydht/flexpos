@@ -90,4 +90,4 @@
 - [ ] Code follows Clean Architecture structure
 - [ ] No sensitive data or env files included
 - [ ] PR title follows convention (feat/fix/chore)
-- [ ] Ready to merge 🚀
+- [ ] Ready to merge
