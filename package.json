@@ -1,0 +1,18 @@
+{
+  "name": "flexpos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": ["apps/*", "packages/*"],
+  "packageManager": "npm@10.2.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "2.8.3"
+  }
+}
