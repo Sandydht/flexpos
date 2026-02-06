@@ -166,7 +166,7 @@ Contributions are welcome!
 git checkout -b feat/new-feature
 ```
 
-3. git checkout -b feat/new-feature
+3. Commit changes:
 
 ```bash
 git commit -m "feat: add new module"
