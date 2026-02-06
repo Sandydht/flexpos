@@ -109,8 +109,8 @@ npm run dev
 
 Apps will run on:
 
-- POS Dashboard -> (http://localhost:3000)[http://localhost:3000]
-- Customer Ordering -> (http://localhost:3001)[http://localhost:3001]
+- POS Dashboard -> [http://localhost:3000](http://localhost:3000)
+- Customer Ordering -> [http://localhost:3001](http://localhost:3001)
 
 ---
 
@@ -149,18 +149,18 @@ Pre-commit hooks automatically run formatting before commit.
 This repository includes a Pull Request template:
 
 - Module impacted
-- Module impacted
 - POS flow checklist
+- Domain changes checklist
 - Testing requirements
 
---
+---
 
 ## Contributing
 
 Contributions are welcome!
 
 1. Fork this repo
-2. Contributions are welcome!
+2. Create a new branch:
 
 ```bash
 git checkout -b feat/new-feature
@@ -178,7 +178,7 @@ git commit -m "feat: add new module"
 
 ## Author
 
-Built with ❤️ by FlexPOS Team
-Built with ❤️ by FlexPOS Team
+Built with ❤️ by FlexPOS Team  
+(UMKM-ready POS & QR Ordering System)
 
 ---
