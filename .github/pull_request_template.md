@@ -24,6 +24,27 @@
 
 ---
 
+## 🍽 POS Flow Impacted?
+
+<!-- Kalau PR ini mempengaruhi flow bisnis POS -->
+
+- [ ] POS Checkout
+- [ ] Table QR Ordering
+- [ ] Kitchen Order Status
+- [ ] Payment Handling
+
+---
+
+## 📦 Domain Changes
+
+<!-- Kalau ada perubahan pada core business logic -->
+
+- [ ] New entity added
+- [ ] New usecase added
+- [ ] Repository contract updated
+
+---
+
 ## Implementation Details
 
 <!-- Jelaskan pendekatan teknis singkat -->
