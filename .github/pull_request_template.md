@@ -24,7 +24,7 @@
 
 ---
 
-## 🍽 POS Flow Impacted?
+## POS Flow Impacted?
 
 <!-- Kalau PR ini mempengaruhi flow bisnis POS -->
 
@@ -35,7 +35,7 @@
 
 ---
 
-## 📦 Domain Changes
+## Domain Changes
 
 <!-- Kalau ada perubahan pada core business logic -->
 
@@ -90,4 +90,4 @@
 - [ ] Code follows Clean Architecture structure
 - [ ] No sensitive data or env files included
 - [ ] PR title follows convention (feat/fix/chore)
-- [ ] Ready to merge 🚀
+- [ ] Ready to merge
