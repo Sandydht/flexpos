@@ -24,7 +24,7 @@
 
 ---
 
-## 🍽 POS Flow Impacted?
+## POS Flow Impacted?
 
 <!-- Kalau PR ini mempengaruhi flow bisnis POS -->
 
@@ -35,7 +35,7 @@
 
 ---
 
-## 📦 Domain Changes
+## Domain Changes
 
 <!-- Kalau ada perubahan pada core business logic -->
 
