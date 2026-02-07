@@ -78,7 +78,7 @@ export const InputPasswordField = ({
                   : VisibilityOff24pxGray300Icon
               }
               alt="Toggle password visibility"
-              className="w-6 h-6 object-contain"
+              className="w-6 h-6 object-contain object-center"
             />
           </button>
         </div>
