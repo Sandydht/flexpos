@@ -47,15 +47,6 @@ export const Disabled: Story = {
   },
 };
 
-export const Password: Story = {
-  args: {
-    label: "Password",
-    placeholder: "Enter password",
-    type: "password",
-    required: true,
-  },
-};
-
 export const WithValue: Story = {
   args: {
     label: "Prefilled Input",

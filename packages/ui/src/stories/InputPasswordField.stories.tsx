@@ -10,13 +10,6 @@ const meta: Meta<typeof InputPasswordField> = {
     label: "Password",
     placeholder: "Enter your password",
   },
-  decorators: [
-    (Story) => (
-      <div style={{ width: "320px", padding: "20px" }}>
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export default meta;

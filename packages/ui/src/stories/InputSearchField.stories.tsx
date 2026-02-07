@@ -8,13 +8,6 @@ const meta: Meta<typeof InputSearchField> = {
   args: {
     placeholder: "Search...",
   },
-  decorators: [
-    (Story) => (
-      <div style={{ width: "320px", padding: "20px" }}>
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export default meta;
@@ -44,14 +37,4 @@ export const CustomPlaceholder: Story = {
   args: {
     placeholder: "Search products...",
   },
-};
-
-export const FullWidth: Story = {
-  decorators: [
-    (Story) => (
-      <div style={{ width: "100%", padding: "20px" }}>
-        <Story />
-      </div>
-    ),
-  ],
 };

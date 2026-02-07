@@ -8,7 +8,8 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 const baseStyle =
   "w-full px-4 py-2 rounded-lg border-2 text-[12px] leading-4 text-gray-500 outline-none min-h-9 max-h-9 bg-white";
-const disabledStyle = "cursor-not-allowed";
+const disabledStyle =
+  "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed";
 const noErrorStyle =
   "border-gray-300 focus:border-blue-500 focus-within:border-blue-500";
 const errorStyle =

@@ -48,7 +48,7 @@ export const InputPasswordField = ({
             type={isVisible ? "text" : "password"}
             disabled={disabled}
             className={`
-              w-full py-2 text-[12px] outline-none leading-4 min-h-9 max-h-9 text-gray-500
+              w-full py-2 text-[12px] outline-none leading-4 min-h-9 max-h-9
               ${
                 disabled
                   ? "bg-transparent text-gray-400 cursor-not-allowed"
