@@ -1,12 +1,39 @@
 {
-  "name": "domain",
+  "name": "@flexpos/domain",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./entities": {
+      "import": "./dist/entities.js",
+      "require": "./dist/entities.cjs"
+    },
+    "./repositories": {
+      "import": "./dist/repositories.js",
+      "require": "./dist/repositories.cjs"
+    },
+    "./usecases": {
+      "import": "./dist/usecases.js",
+      "require": "./dist/usecases.cjs"
+    }
+  },
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "tsup"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "8.5.1",
+    "typescript": "5.9.3"
+  }
 }

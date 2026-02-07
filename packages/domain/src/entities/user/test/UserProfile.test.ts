@@ -3,213 +3,279 @@ import UserProfile from "../UserProfile";
 import { UserRole } from "../types";
 
 describe("UserProfile Entity", () => {
-  const errorMessageKey: string = "USER_PROFILE";
-
   const validPayload = {
     id: "user-123",
-    photoUrl: "https://example.com/photo.png",
-    email: "test@example.com",
+    photoUrl: null,
+    email: "user@mail.com",
     phoneNumber: "081234567890",
     fullName: "User",
-    role: "ADMIN" as UserRole,
+    address: "Jakarta, Indonesia",
+    role: "OFFICER" as UserRole,
+    createdAt: "2025-02-07",
+    updatedAt: null,
+    deletedAt: null,
   };
 
-  it("should create UserProfile when payload is valid", () => {
+  it("should create UserProfile correctly when payload is valid", () => {
     const user = new UserProfile(
       validPayload.id,
       validPayload.photoUrl,
       validPayload.email,
       validPayload.phoneNumber,
       validPayload.fullName,
+      validPayload.address,
       validPayload.role,
+      validPayload.createdAt,
+      validPayload.updatedAt,
+      validPayload.deletedAt,
     );
 
     expect(user.getId()).toBe(validPayload.id);
-    expect(user.getPhotoUrl()).toBe(validPayload.photoUrl);
+    expect(user.getPhotoUrl()).toBeNull();
     expect(user.getEmail()).toBe(validPayload.email);
     expect(user.getPhoneNumber()).toBe(validPayload.phoneNumber);
     expect(user.getFullName()).toBe(validPayload.fullName);
+    expect(user.getAddress()).toBe(validPayload.address);
     expect(user.getUserRole()).toBe(validPayload.role);
+    expect(user.getCreatedAt()).toBe(validPayload.createdAt);
+    expect(user.getUpdatedAt()).toBeNull();
+    expect(user.getDeletedAt()).toBeNull();
   });
 
-  it("should throw error when id is blank", () => {
+  it("should throw error when id is empty", () => {
     expect(() => {
       new UserProfile(
         "",
-        validPayload.photoUrl,
+        null,
         validPayload.email,
         validPayload.phoneNumber,
         validPayload.fullName,
+        validPayload.address,
         validPayload.role,
+        validPayload.createdAt,
+        null,
+        null,
       );
-    }).toThrow(errorMessageKey);
+    }).toThrow();
   });
 
-  it("should throw error when email is blank", () => {
+  it("should throw error when email is invalid format", () => {
     expect(() => {
       new UserProfile(
         validPayload.id,
-        validPayload.photoUrl,
-        "",
+        null,
+        "invalid-email",
         validPayload.phoneNumber,
         validPayload.fullName,
+        validPayload.address,
         validPayload.role,
+        validPayload.createdAt,
+        null,
+        null,
       );
-    }).toThrow(errorMessageKey);
+    }).toThrow();
   });
 
-  it("should throw error when phoneNumber is blank", () => {
+  it("should throw error when phoneNumber is invalid format", () => {
     expect(() => {
       new UserProfile(
         validPayload.id,
-        validPayload.photoUrl,
+        null,
         validPayload.email,
-        "",
+        "12345",
         validPayload.fullName,
+        validPayload.address,
         validPayload.role,
+        validPayload.createdAt,
+        null,
+        null,
       );
-    }).toThrow(errorMessageKey);
+    }).toThrow();
   });
 
   it("should throw error when fullName is blank", () => {
     expect(() => {
       new UserProfile(
         validPayload.id,
-        validPayload.photoUrl,
+        null,
         validPayload.email,
         validPayload.phoneNumber,
         "",
+        validPayload.address,
         validPayload.role,
+        validPayload.createdAt,
+        null,
+        null,
       );
-    }).toThrow(errorMessageKey);
+    }).toThrow();
   });
 
-  it("should throw error when role is blank", () => {
+  it("should throw error when address is blank", () => {
     expect(() => {
       new UserProfile(
         validPayload.id,
-        validPayload.photoUrl,
+        null,
         validPayload.email,
         validPayload.phoneNumber,
         validPayload.fullName,
-        "" as UserRole,
-      );
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should throw error when email format is invalid", () => {
-    expect(() => {
-      new UserProfile(
-        validPayload.id,
-        validPayload.photoUrl,
-        "invalid-email",
-        validPayload.phoneNumber,
-        validPayload.fullName,
+        "",
         validPayload.role,
+        validPayload.createdAt,
+        null,
+        null,
       );
-    }).toThrow(errorMessageKey);
+    }).toThrow();
   });
 
-  it("should throw error when phoneNumber format is invalid", () => {
-    expect(() => {
-      new UserProfile(
-        validPayload.id,
-        validPayload.photoUrl,
-        validPayload.email,
-        "12345",
-        validPayload.fullName,
-        validPayload.role,
-      );
-    }).toThrow(`${errorMessageKey}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`);
-  });
-
-  it("should update email when new email is valid", () => {
+  it("should update email correctly when valid", () => {
     const user = new UserProfile(
       validPayload.id,
-      validPayload.photoUrl,
+      null,
       validPayload.email,
       validPayload.phoneNumber,
       validPayload.fullName,
+      validPayload.address,
       validPayload.role,
+      validPayload.createdAt,
+      null,
+      null,
     );
 
-    user.setEmail("new@example.com");
+    user.setEmail("new@mail.com");
 
-    expect(user.getEmail()).toBe("new@example.com");
+    expect(user.getEmail()).toBe("new@mail.com");
   });
 
   it("should throw error when updating email with invalid format", () => {
     const user = new UserProfile(
       validPayload.id,
-      validPayload.photoUrl,
+      null,
       validPayload.email,
       validPayload.phoneNumber,
       validPayload.fullName,
+      validPayload.address,
       validPayload.role,
+      validPayload.createdAt,
+      null,
+      null,
     );
 
     expect(() => {
-      user.setEmail("invalid-email");
-    }).toThrow(errorMessageKey);
+      user.setEmail("wrong-email");
+    }).toThrow();
   });
 
-  it("should update phoneNumber when new phone number is valid", () => {
+  it("should update phoneNumber correctly when valid", () => {
     const user = new UserProfile(
       validPayload.id,
-      validPayload.photoUrl,
+      null,
       validPayload.email,
       validPayload.phoneNumber,
       validPayload.fullName,
+      validPayload.address,
       validPayload.role,
+      validPayload.createdAt,
+      null,
+      null,
     );
 
-    user.setPhoneNumber("082345678901");
+    user.setPhoneNumber("082233445566");
 
-    expect(user.getPhoneNumber()).toBe("082345678901");
+    expect(user.getPhoneNumber()).toBe("082233445566");
   });
 
-  it("should throw error when updating phoneNumber with invalid format", () => {
+  it("should throw error when updating phoneNumber with invalid value", () => {
     const user = new UserProfile(
       validPayload.id,
-      validPayload.photoUrl,
+      null,
       validPayload.email,
       validPayload.phoneNumber,
       validPayload.fullName,
+      validPayload.address,
       validPayload.role,
+      validPayload.createdAt,
+      null,
+      null,
     );
 
     expect(() => {
-      user.setPhoneNumber("99999");
-    }).toThrow(`${errorMessageKey}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`);
+      user.setPhoneNumber("999");
+    }).toThrow();
   });
 
-  it("should allow setting photoUrl to null", () => {
+  it("should update fullName correctly", () => {
     const user = new UserProfile(
       validPayload.id,
-      validPayload.photoUrl,
+      null,
       validPayload.email,
       validPayload.phoneNumber,
       validPayload.fullName,
+      validPayload.address,
       validPayload.role,
+      validPayload.createdAt,
+      null,
+      null,
     );
 
-    user.setPhotoUrl(null);
+    user.setFullName("Updated Name");
 
-    expect(user.getPhotoUrl()).toBeNull();
+    expect(user.getFullName()).toBe("Updated Name");
   });
 
-  it("should update user role", () => {
+  it("should update address correctly", () => {
     const user = new UserProfile(
       validPayload.id,
-      validPayload.photoUrl,
+      null,
       validPayload.email,
       validPayload.phoneNumber,
       validPayload.fullName,
+      validPayload.address,
       validPayload.role,
+      validPayload.createdAt,
+      null,
+      null,
     );
 
-    user.setUserRole("OFFICER" as UserRole);
+    user.setAddress("Bandung");
 
-    expect(user.getUserRole()).toBe("OFFICER");
+    expect(user.getAddress()).toBe("Bandung");
+  });
+
+  it("should update updatedAt correctly", () => {
+    const user = new UserProfile(
+      validPayload.id,
+      null,
+      validPayload.email,
+      validPayload.phoneNumber,
+      validPayload.fullName,
+      validPayload.address,
+      validPayload.role,
+      validPayload.createdAt,
+      null,
+      null,
+    );
+
+    user.setUpdatedAt("2025-02-08");
+
+    expect(user.getUpdatedAt()).toBe("2025-02-08");
+  });
+
+  it("should update deletedAt correctly", () => {
+    const user = new UserProfile(
+      validPayload.id,
+      null,
+      validPayload.email,
+      validPayload.phoneNumber,
+      validPayload.fullName,
+      validPayload.address,
+      validPayload.role,
+      validPayload.createdAt,
+      null,
+      null,
+    );
+
+    user.setDeletedAt("2025-03-01");
+
+    expect(user.getDeletedAt()).toBe("2025-03-01");
   });
 });

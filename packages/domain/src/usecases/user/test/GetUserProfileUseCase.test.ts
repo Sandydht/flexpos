@@ -9,11 +9,15 @@ describe("GetUserProfileUseCase", () => {
   it("should call repository getUserProfile and return UserProfile entity", async () => {
     const mockUserProfile = new UserProfile(
       "user-123",
-      "https://example.com/photo.png",
-      "test@example.com",
+      null,
+      "user@mail.com",
       "081234567890",
       "User",
-      "ADMIN" as UserRole,
+      "Jakarta, Indonesia",
+      "OFFICER" as UserRole,
+      "2025-02-07",
+      null,
+      null,
     );
 
     const mockUserRepository: UserRepository = {
@@ -26,7 +30,7 @@ describe("GetUserProfileUseCase", () => {
 
     expect(mockUserRepository.getUserProfile).toHaveBeenCalledOnce();
     expect(result).toBe(mockUserProfile);
-    expect(result.getEmail()).toBe("test@example.com");
+    expect(result.getEmail()).toBe("user@mail.com");
   });
 
   it("should throw error when repository throws error", async () => {
