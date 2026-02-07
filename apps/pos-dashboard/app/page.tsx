@@ -8,13 +8,8 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center font-sans">
-      <Button
-        variant="loading"
-        label="Test"
-        disabled={true}
-        onClick={handleClick}
-      />
+    <div className="flex min-h-screen items-center justify-center font-sans bg-red-500">
+      <Button label="Test" onClick={handleClick} />
     </div>
   );
 }

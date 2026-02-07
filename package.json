@@ -14,7 +14,8 @@
     "test": "turbo run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "storybook": "turbo run storybook --filter=@flexpos/ui"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,10 @@
     "prettier": "3.8.1",
     "turbo": "2.8.3",
     "vitest": "4.0.18"
+  },
+  "overrides": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,md}": "prettier --write"
