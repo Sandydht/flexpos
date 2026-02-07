@@ -1,10 +1,16 @@
 "use client";
 
 import { Button } from "@flexpos/ui";
+import { authDependencies } from "@/infrastructure/container";
+import { UserLogin } from "@flexpos/domain";
 
 export default function Home() {
-  const handleClick = () => {
-    console.log("handleClick");
+  const handleClick = async () => {
+    const userLogin: UserLogin = new UserLogin(
+      "example@email.com",
+      "password123",
+    );
+    await authDependencies.loginAccountUseCase.execute(userLogin);
   };
 
   return (
