@@ -35,20 +35,6 @@ describe("UserItem entity", () => {
 
   describe("constructor success case", () => {
     it("should create UserItem entity when payload is valid", () => {
-      const user: UserItem = new UserItem(
-        validPayload.id,
-        validPayload.photoUrl,
-        validPayload.username,
-        validPayload.email,
-        validPayload.phoneNumber,
-        validPayload.fullName,
-        validPayload.address,
-        validPayload.roles as UserRole[],
-        validPayload.createdAt,
-        validPayload.updatedAt,
-        validPayload.deletedAt,
-      );
-
       expect(user.getId()).toBe(validPayload.id);
       expect(user.getPhotoUrl()).toBe(validPayload.photoUrl);
       expect(user.getUsername()).toBe(validPayload.username);
@@ -287,51 +273,49 @@ describe("UserItem entity", () => {
 
   describe("setter success case", () => {
     it("should update id when valid", () => {
-      user.setId("user-1");
-      expect(user.getId()).toBe("user-1");
+      user.setId(validPayload.id);
+      expect(user.getId()).toBe(validPayload.id);
     });
 
     it("should update photoUrl when valid", () => {
-      user.setPhotoUrl("https://photo-link.com");
-      expect(user.getPhotoUrl()).toBe("https://photo-link.com");
+      user.setPhotoUrl(validPayload.photoUrl);
+      expect(user.getPhotoUrl()).toBe(validPayload.photoUrl);
 
       user.setPhotoUrl(null);
       expect(user.getPhotoUrl()).toBeNull();
     });
 
     it("should update username when valid", () => {
-      user.setUsername("updateUsername");
-      expect(user.getUsername()).toBe("updateUsername");
+      user.setUsername(validPayload.username);
+      expect(user.getUsername()).toBe(validPayload.username);
     });
 
     it("should update email when valid", () => {
-      user.setEmail("updateEmail@email.com");
-      expect(user.getEmail()).toBe("updateEmail@email.com");
+      user.setEmail(validPayload.email);
+      expect(user.getEmail()).toBe(validPayload.email);
     });
 
     it("should update phoneNumber when valid", () => {
-      user.setPhoneNumber("081234567891");
-      expect(user.getPhoneNumber()).toBe("081234567891");
+      user.setPhoneNumber(validPayload.phoneNumber);
+      expect(user.getPhoneNumber()).toBe(validPayload.phoneNumber);
     });
 
     it("should update fullName when valid", () => {
-      user.setFullName("Update user fullName");
-      expect(user.getFullName()).toBe("Update user fullName");
+      user.setFullName(validPayload.fullName);
+      expect(user.getFullName()).toBe(validPayload.fullName);
     });
 
     it("should update address when valid", () => {
-      user.setAddress("Update user address");
-      expect(user.getAddress()).toBe("Update user address");
+      user.setAddress(validPayload.address);
+      expect(user.getAddress()).toBe(validPayload.address);
     });
 
     it("should update createdAt when valid", () => {
-      const now = new Date("2026-03-02").toISOString();
       user.setCreatedAt(now);
       expect(user.getCreatedAt()).toBe(now);
     });
 
     it("should update updatedAt when valid", () => {
-      const now = new Date("2026-03-02").toISOString();
       user.setUpdatedAt(now);
       expect(user.getUpdatedAt()).toBe(now);
 
@@ -340,7 +324,6 @@ describe("UserItem entity", () => {
     });
 
     it("should update deletedAt when valid", () => {
-      const now = new Date("2026-03-02").toISOString();
       user.setDeletedAt(now);
       expect(user.getDeletedAt()).toBe(now);
 

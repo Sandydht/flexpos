@@ -17,7 +17,7 @@ describe("LoginAccountUseCase", () => {
       loginAccount: vi.fn().mockResolvedValue(mockNewAuth),
     };
 
-    const useCase = new LoginAccountUseCase(
+    const useCase: LoginAccountUseCase = new LoginAccountUseCase(
       mockAuthRepository as AuthRepository,
     );
 
@@ -34,7 +34,7 @@ describe("LoginAccountUseCase", () => {
       loginAccount: vi.fn().mockRejectedValue(mockError),
     };
 
-    const useCase = new LoginAccountUseCase(
+    const useCase: LoginAccountUseCase = new LoginAccountUseCase(
       mockAuthRepository as AuthRepository,
     );
 

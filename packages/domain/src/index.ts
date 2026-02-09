@@ -1,3 +1,3 @@
-export * from "./usecases";
-export * from "./entities";
-export * from "./repositories";
+export * from "./usecases/usecases";
+export * from "./entities/entities";
+export * from "./repositories/repositories";
