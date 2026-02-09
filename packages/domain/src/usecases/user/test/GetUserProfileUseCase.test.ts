@@ -1,21 +1,22 @@
 import { describe, it, expect, vi } from "vitest";
 
 import GetUserProfileUseCase from "../GetUserProfileUseCase";
-import UserProfile from "../../../entities/user/UserProfile";
-import { UserRole } from "../../../entities/user/types";
+import UserItem from "../../../entities/user/UserItem";
 import UserRepository from "../../../repositories/UserRepository";
 
 describe("GetUserProfileUseCase", () => {
-  it("should call repository getUserProfile and return UserProfile entity", async () => {
-    const mockUserProfile = new UserProfile(
-      "user-123",
+  it("should call repository getUserProfile and return UserItem entity", async () => {
+    const now = new Date("2026-3-02").toISOString();
+    const mockUserProfile = new UserItem(
+      "user-1",
       null,
-      "user@mail.com",
+      "user",
+      "example@email.com",
       "081234567890",
       "User",
-      "Jakarta, Indonesia",
-      "OFFICER" as UserRole,
-      "2025-02-07",
+      "Address",
+      ["OWNER"],
+      now,
       null,
       null,
     );
@@ -29,17 +30,17 @@ describe("GetUserProfileUseCase", () => {
     const result = await useCase.execute();
 
     expect(mockUserRepository.getUserProfile).toHaveBeenCalledOnce();
-    expect(result).toBe(mockUserProfile);
-    expect(result.getEmail()).toBe("user@mail.com");
+    expect(result).toStrictEqual(mockUserProfile);
   });
 
   it("should throw error when repository throws error", async () => {
+    const mockError: Error = new Error("SERVER_ERROR");
     const mockUserRepository: UserRepository = {
-      getUserProfile: vi.fn().mockRejectedValue(new Error("SERVER_ERROR")),
+      getUserProfile: vi.fn().mockRejectedValue(mockError),
     };
 
     const useCase = new GetUserProfileUseCase(mockUserRepository);
 
-    await expect(useCase.execute()).rejects.toThrow("SERVER_ERROR");
+    await expect(useCase.execute()).rejects.toThrow(mockError.message);
   });
 });

@@ -147,7 +147,6 @@ describe("InputValidator", () => {
       }).not.toThrow();
     });
 
-    // ❌ Invalid phone numbers
     it("should throw error if phone number does not start with 08/62/+62", () => {
       expect(() => {
         InputValidator.indonesianPhoneNumberValidFormat(
@@ -191,6 +190,86 @@ describe("InputValidator", () => {
           errorMessageKey,
         );
       }).toThrow(`${errorMessageKey}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`);
+    });
+  });
+
+  describe("validateUsername function", () => {
+    it("should not throw error when username is valid", () => {
+      expect(() => {
+        InputValidator.validateUsername("validUsername123", errorMessageKey);
+      }).not.toThrow();
+    });
+
+    it("should throw error when username length is more than 50 characters", () => {
+      const longUsername = "a".repeat(51);
+
+      expect(() => {
+        InputValidator.validateUsername(longUsername, errorMessageKey);
+      }).toThrowError(`${errorMessageKey}.USERNAME_LIMIT_CHAR`);
+    });
+
+    it("should throw error when username contains restricted characters", () => {
+      const invalidUsername = "user name!@#";
+
+      expect(() => {
+        InputValidator.validateUsername(invalidUsername, errorMessageKey);
+      }).toThrowError(
+        `${errorMessageKey}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
+      );
+    });
+
+    it("should throw error when username contains spaces", () => {
+      expect(() => {
+        InputValidator.validateUsername("user name", errorMessageKey);
+      }).toThrowError(
+        `${errorMessageKey}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
+      );
+    });
+
+    it("should throw error when username contains special symbols", () => {
+      expect(() => {
+        InputValidator.validateUsername("user@123", errorMessageKey);
+      }).toThrowError(
+        `${errorMessageKey}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
+      );
+    });
+  });
+
+  describe("requireNotBlankArray function", () => {
+    it("should not throw error when array is not empty", () => {
+      expect(() => {
+        InputValidator.requireNotBlankArray(["role1"], errorMessageKey);
+      }).not.toThrow();
+    });
+
+    it("should throw error when array is empty", () => {
+      expect(() => {
+        InputValidator.requireNotBlankArray([], errorMessageKey);
+      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    });
+
+    it("should throw error when array is undefined", () => {
+      expect(() => {
+        InputValidator.requireNotBlankArray(
+          undefined as unknown as string[],
+          errorMessageKey,
+        );
+      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    });
+
+    it("should work with generic type (number array)", () => {
+      expect(() => {
+        InputValidator.requireNotBlankArray([1, 2, 3], errorMessageKey);
+      }).not.toThrow();
+    });
+
+    it("should work with generic type (object array)", () => {
+      expect(() => {
+        InputValidator.requireNotBlankArray(
+          [{ id: 1 }, { id: 2 }],
+          errorMessageKey,
+        );
+      }).not.toThrow();
     });
   });
 });

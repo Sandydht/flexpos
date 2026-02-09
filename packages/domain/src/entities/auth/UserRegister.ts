@@ -1,93 +1,72 @@
-import { UserRole } from "./types";
 import InputValidator from "../utils/InputValidator";
 
-class UserProfile {
-  private readonly errorMessageKey: string = "USER_PROFILE";
+class UserRegister {
+  private readonly errorMessageKey: string = "USER_REGISTER";
 
-  private id: string;
-  private photoUrl: string | null;
+  private username: string;
   private email: string;
   private phoneNumber: string;
   private fullName: string;
   private address: string;
-  private role: UserRole;
-  private createdAt: string;
-  private updatedAt: string | null;
-  private deletedAt: string | null;
+  private password: string;
 
   constructor(
-    id: string,
-    photoUrl: string | null,
+    username: string,
     email: string,
     phoneNumber: string,
     fullName: string,
     address: string,
-    role: UserRole,
-    createdAt: string,
-    updatedAt: string | null,
-    deletedAt: string | null,
+    password: string,
   ) {
     this._verifyPayload(
-      id,
+      username,
       email,
       phoneNumber,
       fullName,
       address,
-      role,
-      createdAt,
+      password,
     );
 
-    this.id = id;
-    this.photoUrl = photoUrl;
+    this.username = username;
     this.email = email;
     this.phoneNumber = phoneNumber;
     this.fullName = fullName;
     this.address = address;
-    this.role = role;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
+    this.password = password;
   }
 
   private _verifyPayload(
-    id: string,
+    username: string,
     email: string,
     phoneNumber: string,
     fullName: string,
     address: string,
-    role: UserRole,
-    createdAt: string,
+    password: string,
   ) {
-    InputValidator.requireNotBlank(id, this.errorMessageKey);
+    InputValidator.requireNotBlank(username, this.errorMessageKey);
     InputValidator.requireNotBlank(email, this.errorMessageKey);
     InputValidator.requireNotBlank(phoneNumber, this.errorMessageKey);
     InputValidator.requireNotBlank(fullName, this.errorMessageKey);
     InputValidator.requireNotBlank(address, this.errorMessageKey);
-    InputValidator.requireNotBlank(role, this.errorMessageKey);
-    InputValidator.requireNotBlank(createdAt, this.errorMessageKey);
+    InputValidator.requireNotBlank(password, this.errorMessageKey);
 
+    InputValidator.validateUsername(username, this.errorMessageKey);
     InputValidator.emailValidFormat(email, this.errorMessageKey);
     InputValidator.indonesianPhoneNumberValidFormat(
       phoneNumber,
       this.errorMessageKey,
     );
+    InputValidator.validatePassword(password, this.errorMessageKey);
   }
 
-  getId(): string {
-    return this.id;
+  getUsername(): string {
+    return this.username;
   }
 
-  setId(id: string) {
-    InputValidator.requireNotBlank(id, this.errorMessageKey);
-    this.id = id;
-  }
-
-  getPhotoUrl(): string | null {
-    return this.photoUrl;
-  }
-
-  setPhotoUrl(photoUrl: string | null) {
-    this.photoUrl = photoUrl;
+  setUsername(username: string) {
+    InputValidator.requireNotBlank(username, this.errorMessageKey);
+    InputValidator.validateUsername(username, this.errorMessageKey);
+    this.username = username;
   }
 
   getEmail(): string {
@@ -131,38 +110,15 @@ class UserProfile {
     this.address = address;
   }
 
-  getUserRole(): UserRole {
-    return this.role;
+  getPassword(): string {
+    return this.password;
   }
 
-  setUserRole(role: UserRole) {
-    this.role = role;
-  }
-
-  getCreatedAt(): string {
-    return this.createdAt;
-  }
-
-  setCreatedAt(createdAt: string) {
-    InputValidator.requireNotBlank(createdAt, this.errorMessageKey);
-    this.createdAt = createdAt;
-  }
-
-  getUpdatedAt(): string | null {
-    return this.updatedAt;
-  }
-
-  setUpdatedAt(updatedAt: string | null) {
-    this.updatedAt = updatedAt;
-  }
-
-  getDeletedAt(): string | null {
-    return this.deletedAt;
-  }
-
-  setDeletedAt(deletedAt: string | null) {
-    this.deletedAt = deletedAt;
+  setPassword(password: string) {
+    InputValidator.requireNotBlank(password, this.errorMessageKey);
+    InputValidator.validatePassword(password, this.errorMessageKey);
+    this.password = password;
   }
 }
 
-export default UserProfile;
+export default UserRegister;

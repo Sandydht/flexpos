@@ -44,6 +44,8 @@ describe("GetCategoryDetailUseCase", () => {
       mockCategoryRepository as CategoryRepository,
     );
 
-    await expect(useCase.execute(mockCategoryId)).rejects.toThrow(mockError);
+    await expect(useCase.execute(mockCategoryId)).rejects.toThrow(
+      mockError.message,
+    );
   });
 });

@@ -1,5 +1,5 @@
-import UserProfile from "../entities/user/UserProfile";
+import UserItem from "../entities/user/UserItem";
 
 export default interface UserRepository {
-  getUserProfile(): Promise<UserProfile>;
+  getUserProfile(): Promise<UserItem>;
 }

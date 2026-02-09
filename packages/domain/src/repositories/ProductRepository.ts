@@ -6,4 +6,5 @@ export default interface ProductRepository {
   addProduct(_payload: AddProduct): Promise<ProductItem>;
   getProductDetail(_id: string): Promise<ProductItem>;
   updateProduct(_id: string, _payload: UpdateProduct): Promise<ProductItem>;
+  deleteProduct(_id: string): Promise<ProductItem>;
 }

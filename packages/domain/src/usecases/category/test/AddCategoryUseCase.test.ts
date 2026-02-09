@@ -45,6 +45,8 @@ describe("AddCategoryUseCase", () => {
       mockCategoryRepository as CategoryRepository,
     );
 
-    await expect(useCase.execute(mockAddCategory)).rejects.toThrow(mockError);
+    await expect(useCase.execute(mockAddCategory)).rejects.toThrow(
+      mockError.message,
+    );
   });
 });

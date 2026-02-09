@@ -5,37 +5,41 @@ import NewAuth from "../../../entities/auth/NewAuth";
 import AuthRepository from "../../../repositories/AuthRepository";
 
 describe("LoginAccountUseCase", () => {
+  const mockUserLogin: UserLogin = new UserLogin(
+    "example@email.com",
+    "password123",
+  );
+
   it("should call repository loginAccount and return NewAuth entity", async () => {
+    const mockNewAuth: NewAuth = new NewAuth("access-token", "refresh-token");
+
     const mockAuthRepository: Partial<AuthRepository> = {
-      loginAccount: vi
-        .fn()
-        .mockResolvedValue(new NewAuth("access-token", "refresh-token")),
+      loginAccount: vi.fn().mockResolvedValue(mockNewAuth),
     };
 
     const useCase = new LoginAccountUseCase(
       mockAuthRepository as AuthRepository,
     );
 
-    const payload = new UserLogin("test@example.com", "abc12345");
+    const result = await useCase.execute(mockUserLogin);
 
-    const result = await useCase.execute(payload);
-
-    expect(mockAuthRepository.loginAccount).toHaveBeenCalledWith(payload);
-    expect(result.getAccessToken()).toBe("access-token");
-    expect(result.getRefreshToken()).toBe("refresh-token");
+    expect(mockAuthRepository.loginAccount).toHaveBeenCalledWith(mockUserLogin);
+    expect(result).toStrictEqual(mockNewAuth);
   });
 
   it("should throw error when repository throws error", async () => {
-    const mockAuthRepository: Partial<AuthRepository> = {
-      loginAccount: vi.fn().mockRejectedValue(new Error("SERVER_ERROR")),
-    };
+    const mockError: Error = new Error("SERVER_ERROR");
 
-    const payload = new UserLogin("test@example.com", "abc12345");
+    const mockAuthRepository: Partial<AuthRepository> = {
+      loginAccount: vi.fn().mockRejectedValue(mockError),
+    };
 
     const useCase = new LoginAccountUseCase(
       mockAuthRepository as AuthRepository,
     );
 
-    await expect(useCase.execute(payload)).rejects.toThrow("SERVER_ERROR");
+    await expect(useCase.execute(mockUserLogin)).rejects.toThrow(
+      mockError.message,
+    );
   });
 });

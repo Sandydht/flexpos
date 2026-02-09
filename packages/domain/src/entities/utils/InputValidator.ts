@@ -6,6 +6,7 @@ class InputValidator {
     /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   private static readonly INDONESIAN_PHONE_NUMBER_PATTERN =
     /^(?:\+62|62|0)8[1-9][0-9]{7,10}$/;
+  private static readonly USERNAME_PATTERN = /^[\w]+$/;
 
   public static requireNotBlank(value: string, errorMessageKey: string): void {
     if (!value || value.trim().length === 0) {
@@ -45,11 +46,35 @@ class InputValidator {
   public static indonesianPhoneNumberValidFormat(
     phoneNumber: string,
     errorMessageKey: string,
-  ) {
+  ): void {
     if (!this.INDONESIAN_PHONE_NUMBER_PATTERN.test(phoneNumber)) {
       throw new Error(
         `${errorMessageKey}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`,
       );
+    }
+  }
+
+  public static validateUsername(
+    username: string,
+    errorMessageKey: string,
+  ): void {
+    if (username.length > 50) {
+      throw new Error(`${errorMessageKey}.USERNAME_LIMIT_CHAR`);
+    }
+
+    if (!this.USERNAME_PATTERN.test(username)) {
+      throw new Error(
+        `${errorMessageKey}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
+      );
+    }
+  }
+
+  public static requireNotBlankArray<T>(
+    values: T[],
+    errorMessageKey: string,
+  ): void {
+    if (!values || values.length === 0) {
+      throw new Error(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
     }
   }
 }

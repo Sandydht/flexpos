@@ -1,4 +1,4 @@
-import UserProfile from "../../entities/user/UserProfile";
+import UserItem from "../../entities/user/UserItem";
 import UserRepository from "../../repositories/UserRepository";
 
 class GetUserProfileUseCase {
@@ -8,7 +8,7 @@ class GetUserProfileUseCase {
     this.userRepository = userRepository;
   }
 
-  async execute(): Promise<UserProfile> {
+  async execute(): Promise<UserItem> {
     return await this.userRepository.getUserProfile();
   }
 }

@@ -53,6 +53,6 @@ describe("UpdateCategoryUseCase", () => {
 
     await expect(
       useCase.execute(mockCategoryId, mockUpdateCategory),
-    ).rejects.toThrow(mockError);
+    ).rejects.toThrow(mockError.message);
   });
 });

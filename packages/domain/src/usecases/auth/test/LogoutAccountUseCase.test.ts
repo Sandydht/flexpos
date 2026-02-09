@@ -5,35 +5,39 @@ import UserLogout from "../../../entities/auth/UserLogout";
 import AuthRepository from "../../../repositories/AuthRepository";
 
 describe("LogoutAccountUseCase", () => {
-  it("should call repository logoutAccount and return success message", async () => {
-    const payload = new UserLogout("refresh-token-123");
+  const mockUserLogout: UserLogout = new UserLogout("refresh-token");
 
+  it("should call repository logoutAccount and return success message", async () => {
+    const successMessage: string = "See you!";
     const mockAuthRepository: Partial<AuthRepository> = {
-      logoutAccount: vi.fn().mockResolvedValue("Logout success"),
+      logoutAccount: vi.fn().mockResolvedValue(successMessage),
     };
 
     const useCase = new LogoutAccountUseCase(
       mockAuthRepository as AuthRepository,
     );
 
-    const result = await useCase.execute(payload);
+    const result = await useCase.execute(mockUserLogout);
 
-    expect(mockAuthRepository.logoutAccount).toHaveBeenCalledOnce();
-    expect(mockAuthRepository.logoutAccount).toHaveBeenCalledWith(payload);
-    expect(result).toBe("Logout success");
+    expect(mockAuthRepository.logoutAccount).toHaveBeenCalledWith(
+      mockUserLogout,
+    );
+    expect(result).toStrictEqual(successMessage);
   });
 
   it("should throw error when repository throws error", async () => {
-    const payload = new UserLogout("refresh-token-123");
+    const mockError: Error = new Error("SERVER_ERROR");
 
     const mockAuthRepository: Partial<AuthRepository> = {
-      logoutAccount: vi.fn().mockRejectedValue(new Error("SERVER_ERROR")),
+      logoutAccount: vi.fn().mockRejectedValue(mockError),
     };
 
     const useCase = new LogoutAccountUseCase(
       mockAuthRepository as AuthRepository,
     );
 
-    await expect(useCase.execute(payload)).rejects.toThrow("SERVER_ERROR");
+    await expect(useCase.execute(mockUserLogout)).rejects.toThrow(
+      mockError.message,
+    );
   });
 });
