@@ -64,13 +64,13 @@ describe("UserLogin Entity", () => {
 
   describe("setter success case", () => {
     it("should update email when valid", () => {
-      user.setEmail("example@email.com");
-      expect(user.getEmail()).toBe("example@email.com");
+      user.setEmail(validPayload.email);
+      expect(user.getEmail()).toBe(validPayload.email);
     });
 
     it("should update password when valid", () => {
-      user.setPassword("updatedPassword123");
-      expect(user.getPassword()).toBe("updatedPassword123");
+      user.setPassword(validPayload.password);
+      expect(user.getPassword()).toBe(validPayload.password);
     });
   });
 

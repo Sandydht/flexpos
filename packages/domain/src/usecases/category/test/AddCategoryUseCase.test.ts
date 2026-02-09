@@ -11,6 +11,7 @@ describe("AddCategoryUseCase", () => {
     const now = new Date().toISOString();
     const mockCategoryItem: CategoryItem = new CategoryItem(
       "category-1",
+      "Category 1",
       1,
       true,
       now,

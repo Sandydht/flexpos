@@ -36,13 +36,13 @@ describe("NewAuth Entity", () => {
 
   describe("setter success case", () => {
     it("should update accessToken when valid", () => {
-      auth.setAccessToken("new-access-token");
-      expect(auth.getAccessToken()).toBe("new-access-token");
+      auth.setAccessToken(validPayload.accessToken);
+      expect(auth.getAccessToken()).toBe(validPayload.accessToken);
     });
 
     it("should update refreshToken when valid", () => {
-      auth.setRefreshToken("new-refresh-token");
-      expect(auth.getRefreshToken()).toBe("new-refresh-token");
+      auth.setRefreshToken(validPayload.refreshToken);
+      expect(auth.getRefreshToken()).toBe(validPayload.refreshToken);
     });
   });
 

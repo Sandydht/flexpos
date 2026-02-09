@@ -4,6 +4,7 @@ class CategoryItem {
   private readonly errorMessageKey: string = "CATEGORY_ITEM";
 
   private id: string;
+  private name: string;
   private displayOrder: number;
   private isActive: boolean;
   private createdAt: string;
@@ -12,15 +13,17 @@ class CategoryItem {
 
   constructor(
     id: string,
+    name: string,
     displayOrder: number,
     isActive: boolean,
     createdAt: string,
     updatedAt: string | null,
     deletedAt: string | null,
   ) {
-    this._verifyPayload(id, createdAt);
+    this._verifyPayload(id, name, createdAt);
 
     this.id = id;
+    this.name = name;
     this.displayOrder = displayOrder;
     this.isActive = isActive;
     this.createdAt = createdAt;
@@ -28,8 +31,9 @@ class CategoryItem {
     this.deletedAt = deletedAt;
   }
 
-  private _verifyPayload(id: string, createdAt: string) {
+  private _verifyPayload(id: string, name: string, createdAt: string) {
     InputValidator.requireNotBlank(id, this.errorMessageKey);
+    InputValidator.requireNotBlank(name, this.errorMessageKey);
     InputValidator.requireNotBlank(createdAt, this.errorMessageKey);
   }
 
@@ -40,6 +44,15 @@ class CategoryItem {
   setId(id: string) {
     InputValidator.requireNotBlank(id, this.errorMessageKey);
     this.id = id;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  setName(name: string) {
+    InputValidator.requireNotBlank(name, this.errorMessageKey);
+    this.name = name;
   }
 
   getDisplayOrder(): number {

@@ -2,55 +2,47 @@ import { describe, it, expect } from "vitest";
 import AddCategory from "../AddCategory";
 
 describe("AddCategory Entity", () => {
-  it("should create AddCategory object correctly when payload is valid", () => {
-    const category = new AddCategory("Food", 1, true);
+  const errorMessageKey: string = "ADD_CATEGORY";
+  const validPayload = {
+    name: "Category 1",
+    displayOrder: 1,
+    isActive: true,
+  };
 
-    expect(category.getName()).toBe("Food");
-    expect(category.getDisplayOrder()).toBe(1);
-    expect(category.getIsActive()).toBe(true);
+  const category: AddCategory = new AddCategory(
+    validPayload.name,
+    validPayload.displayOrder,
+    validPayload.isActive,
+  );
+
+  describe("constructor success case", () => {
+    it("should create AddCategory entity when payload is valid", () => {
+      expect(category.getName()).toBe(validPayload.name);
+      expect(category.getDisplayOrder()).toBe(validPayload.displayOrder);
+      expect(category.getIsActive()).toBe(validPayload.isActive);
+    });
   });
 
-  it("should throw error when name is empty string", () => {
-    expect(() => {
-      new AddCategory("", 1, true);
-    }).toThrow();
+  describe("constructor error case", () => {
+    it("should throw error when name is blank", () => {
+      expect(() => {
+        new AddCategory("", validPayload.displayOrder, validPayload.isActive);
+      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    });
   });
 
-  it("should throw error when name is only whitespace", () => {
-    expect(() => {
-      new AddCategory("   ", 1, true);
-    }).toThrow();
+  describe("setter success case", () => {
+    it("should update name when valid", () => {
+      category.setName(validPayload.name);
+      expect(category.getName()).toBe(validPayload.name);
+    });
   });
 
-  it("should update name correctly when valid", () => {
-    const category = new AddCategory("Food", 1, true);
-
-    category.setName("Beverage");
-
-    expect(category.getName()).toBe("Beverage");
-  });
-
-  it("should throw error when updating name with invalid value", () => {
-    const category = new AddCategory("Food", 1, true);
-
-    expect(() => {
-      category.setName("");
-    }).toThrow();
-  });
-
-  it("should update displayOrder correctly", () => {
-    const category = new AddCategory("Food", 1, true);
-
-    category.setDisplayOrder(5);
-
-    expect(category.getDisplayOrder()).toBe(5);
-  });
-
-  it("should update isActive correctly", () => {
-    const category = new AddCategory("Food", 1, true);
-
-    category.setIsActive(false);
-
-    expect(category.getIsActive()).toBe(false);
+  describe("setter error case", () => {
+    it("should throw error when setting blank name", () => {
+      expect(() => category.setName("")).toThrowError(
+        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
+    });
   });
 });

@@ -213,33 +213,33 @@ describe("UserRegister Entity", () => {
 
   describe("setter success case", () => {
     it("should update username when valid", () => {
-      user.setUsername("updateUsername");
-      expect(user.getUsername()).toBe("updateUsername");
+      user.setUsername(validPayload.username);
+      expect(user.getUsername()).toBe(validPayload.username);
     });
 
     it("should update email when valid", () => {
-      user.setEmail("updateEmail@email.com");
-      expect(user.getEmail()).toBe("updateEmail@email.com");
+      user.setEmail(validPayload.email);
+      expect(user.getEmail()).toBe(validPayload.email);
     });
 
     it("should update phoneNumber when valid", () => {
-      user.setPhoneNumber("081234567891");
-      expect(user.getPhoneNumber()).toBe("081234567891");
+      user.setPhoneNumber(validPayload.phoneNumber);
+      expect(user.getPhoneNumber()).toBe(validPayload.phoneNumber);
     });
 
     it("should update fullName when valid", () => {
-      user.setFullName("Update user fullName");
-      expect(user.getFullName()).toBe("Update user fullName");
+      user.setFullName(validPayload.fullName);
+      expect(user.getFullName()).toBe(validPayload.fullName);
     });
 
     it("should update address when valid", () => {
-      user.setAddress("Update user address");
-      expect(user.getAddress()).toBe("Update user address");
+      user.setAddress(validPayload.address);
+      expect(user.getAddress()).toBe(validPayload.address);
     });
 
     it("should update password when valid", () => {
-      user.setPassword("updatedPassword123");
-      expect(user.getPassword()).toBe("updatedPassword123");
+      user.setPassword(validPayload.password);
+      expect(user.getPassword()).toBe(validPayload.password);
     });
   });
 

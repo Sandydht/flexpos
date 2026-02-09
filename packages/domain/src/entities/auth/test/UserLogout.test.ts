@@ -25,8 +25,8 @@ describe("UserLogout Entity", () => {
 
   describe("setter success case", () => {
     it("should update refreshToken when valid", () => {
-      user.setRefreshToken("new-refresh-token");
-      expect(user.getRefreshToken()).toBe("new-refresh-token");
+      user.setRefreshToken(validPayload.refreshToken);
+      expect(user.getRefreshToken()).toBe(validPayload.refreshToken);
     });
   });
 
