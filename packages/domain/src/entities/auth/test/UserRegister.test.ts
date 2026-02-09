@@ -23,15 +23,6 @@ describe("UserRegister Entity", () => {
 
   describe("constructor success case", () => {
     it("should create UserRegister entity when payload is valid", () => {
-      const user = new UserRegister(
-        validPayload.username,
-        validPayload.email,
-        validPayload.phoneNumber,
-        validPayload.fullName,
-        validPayload.address,
-        validPayload.password,
-      );
-
       expect(user.getUsername()).toBe(validPayload.username);
       expect(user.getEmail()).toBe(validPayload.email);
       expect(user.getPhoneNumber()).toBe(validPayload.phoneNumber);

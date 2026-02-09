@@ -3,107 +3,88 @@ import UserLogin from "../UserLogin";
 
 describe("UserLogin Entity", () => {
   const errorMessageKey: string = "USER_LOGIN";
+  const validPayload = {
+    email: "example@email.com",
+    password: "password123",
+  };
 
-  it("should create UserLogin when email and password are valid", () => {
-    const user = new UserLogin("test@example.com", "abc12345");
+  const user: UserLogin = new UserLogin(
+    validPayload.email,
+    validPayload.password,
+  );
 
-    expect(user.getEmail()).toBe("test@example.com");
-    expect(user.getPassword()).toBe("abc12345");
+  describe("constructor success case", () => {
+    it("should create UserLogin entity when payload is valid", () => {
+      expect(user.getEmail()).toBe(validPayload.email);
+      expect(user.getPassword()).toBe(validPayload.password);
+    });
   });
 
-  it("should throw error when email is empty", () => {
-    expect(() => {
-      new UserLogin("", "abc12345");
-    }).toThrow(errorMessageKey);
+  describe("constructor error case", () => {
+    it("should throw error when email is blank", () => {
+      expect(() => {
+        new UserLogin("", validPayload.password);
+      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    });
+
+    it("should throw error when password is blank", () => {
+      expect(() => {
+        new UserLogin(validPayload.email, "");
+      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    });
+
+    it("should throw error when email format is invalid", () => {
+      expect(() => {
+        new UserLogin("invalid-email", validPayload.password);
+      }).toThrowError(`${errorMessageKey}.INVALID_EMAIL_FORMAT`);
+    });
+
+    it("should throw error when password less than 8 characters", () => {
+      expect(() => {
+        new UserLogin(validPayload.email, "sec123");
+      }).toThrowError(
+        `${errorMessageKey}.PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS_LONG`,
+      );
+    });
+
+    it("should throw error when password does not contain letters and numbers", () => {
+      expect(() => {
+        new UserLogin(validPayload.email, "password");
+      }).toThrowError(
+        `${errorMessageKey}.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LETTER_AND_ONE_NUMBER`,
+      );
+    });
+
+    it("should throw error when password contain space", () => {
+      expect(() => {
+        new UserLogin(validPayload.email, "password 123");
+      }).toThrowError(`${errorMessageKey}.PASSWORD_MUST_NOT_CONTAIN_SPACES`);
+    });
   });
 
-  it("should throw error when email is only spaces", () => {
-    expect(() => {
-      new UserLogin("   ", "abc12345");
-    }).toThrow(errorMessageKey);
+  describe("setter success case", () => {
+    it("should update email when valid", () => {
+      user.setEmail("example@email.com");
+      expect(user.getEmail()).toBe("example@email.com");
+    });
+
+    it("should update password when valid", () => {
+      user.setPassword("updatedPassword123");
+      expect(user.getPassword()).toBe("updatedPassword123");
+    });
   });
 
-  it("should throw error when password is empty", () => {
-    expect(() => {
-      new UserLogin("test@example.com", "");
-    }).toThrow(errorMessageKey);
-  });
+  describe("setter error case", () => {
+    it("should throw error when setting blank email", () => {
+      expect(() => user.setEmail("")).toThrowError(
+        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
+    });
 
-  it("should throw error when password is only spaces", () => {
-    expect(() => {
-      new UserLogin("test@example.com", "   ");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should throw error when email format is invalid", () => {
-    expect(() => {
-      new UserLogin("invalid-email", "abc12345");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should throw error when password is less than 8 characters", () => {
-    expect(() => {
-      new UserLogin("test@example.com", "abc12");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should throw error when password does not contain numbers", () => {
-    expect(() => {
-      new UserLogin("test@example.com", "abcdefgh");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should throw error when password contains spaces", () => {
-    expect(() => {
-      new UserLogin("test@example.com", "abc123 45");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should update email when new email is valid", () => {
-    const user = new UserLogin("test@example.com", "abc12345");
-
-    user.setEmail("new@example.com");
-
-    expect(user.getEmail()).toBe("new@example.com");
-  });
-
-  it("should throw error when updating email with blank value", () => {
-    const user = new UserLogin("test@example.com", "abc12345");
-
-    expect(() => {
-      user.setEmail("");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should throw error when updating email with invalid format", () => {
-    const user = new UserLogin("test@example.com", "abc12345");
-
-    expect(() => {
-      user.setEmail("invalid-email");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should update password when new password is valid", () => {
-    const user = new UserLogin("test@example.com", "abc12345");
-
-    user.setPassword("newpass123");
-
-    expect(user.getPassword()).toBe("newpass123");
-  });
-
-  it("should throw error when updating password with blank value", () => {
-    const user = new UserLogin("test@example.com", "abc12345");
-
-    expect(() => {
-      user.setPassword("");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should throw error when updating password with invalid rules", () => {
-    const user = new UserLogin("test@example.com", "abc12345");
-
-    expect(() => {
-      user.setPassword("short1");
-    }).toThrow(errorMessageKey);
+    it("should throw error when setting blank password", () => {
+      expect(() => user.setPassword("")).toThrowError(
+        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
+    });
   });
 });

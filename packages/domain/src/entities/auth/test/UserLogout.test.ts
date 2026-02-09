@@ -3,46 +3,38 @@ import UserLogout from "../UserLogout";
 
 describe("UserLogout Entity", () => {
   const errorMessageKey: string = "USER_LOGOUT";
+  const validPayload = {
+    refreshToken: "refresh-token",
+  };
 
-  it("should create UserLogout when refreshToken is valid", () => {
-    const logout = new UserLogout("refresh-token-123");
+  const user: UserLogout = new UserLogout(validPayload.refreshToken);
 
-    expect(logout.getRefreshToken()).toBe("refresh-token-123");
+  describe("constructor success case", () => {
+    it("should create UserLogout entity when payload is valid", () => {
+      expect(user.getRefreshToken()).toBe(validPayload.refreshToken);
+    });
   });
 
-  it("should throw error when refreshToken is empty", () => {
-    expect(() => {
-      new UserLogout("");
-    }).toThrow(errorMessageKey);
+  describe("constructor error case", () => {
+    it("should throw error when refreshToken is blank", () => {
+      expect(() => {
+        new UserLogout("");
+      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    });
   });
 
-  it("should throw error when refreshToken is only spaces", () => {
-    expect(() => {
-      new UserLogout("   ");
-    }).toThrow(errorMessageKey);
+  describe("setter success case", () => {
+    it("should update refreshToken when valid", () => {
+      user.setRefreshToken("new-refresh-token");
+      expect(user.getRefreshToken()).toBe("new-refresh-token");
+    });
   });
 
-  it("should update refreshToken when new value is valid", () => {
-    const logout = new UserLogout("refresh-token-123");
-
-    logout.setRefreshToken("new-refresh-token-456");
-
-    expect(logout.getRefreshToken()).toBe("new-refresh-token-456");
-  });
-
-  it("should throw error when updating refreshToken with blank value", () => {
-    const logout = new UserLogout("refresh-token-123");
-
-    expect(() => {
-      logout.setRefreshToken("");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should throw error when updating refreshToken with spaces only", () => {
-    const logout = new UserLogout("refresh-token-123");
-
-    expect(() => {
-      logout.setRefreshToken("   ");
-    }).toThrow(errorMessageKey);
+  describe("setter error case", () => {
+    it("should throw error when setting blank refreshToken", () => {
+      expect(() => user.setRefreshToken("")).toThrowError(
+        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
+    });
   });
 });

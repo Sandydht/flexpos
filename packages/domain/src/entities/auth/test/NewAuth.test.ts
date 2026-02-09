@@ -3,67 +3,60 @@ import NewAuth from "../NewAuth";
 
 describe("NewAuth Entity", () => {
   const errorMessageKey: string = "NEW_AUTH";
+  const validPayload = {
+    accessToken: "access-token",
+    refreshToken: "refresh-token",
+  };
 
-  it("should create NewAuth object when tokens are valid", () => {
-    const auth = new NewAuth("access-token-123", "refresh-token-456");
+  const auth: NewAuth = new NewAuth(
+    validPayload.accessToken,
+    validPayload.refreshToken,
+  );
 
-    expect(auth.getAccessToken()).toBe("access-token-123");
-    expect(auth.getRefreshToken()).toBe("refresh-token-456");
+  describe("constructor success case", () => {
+    it("should create NewAuth entity when payload is valid", () => {
+      expect(auth.getAccessToken()).toBe(validPayload.accessToken);
+      expect(auth.getRefreshToken()).toBe(validPayload.refreshToken);
+    });
   });
 
-  it("should throw error when accessToken is empty", () => {
-    expect(() => {
-      new NewAuth("", "refresh-token-456");
-    }).toThrow(errorMessageKey);
+  describe("constructor error case", () => {
+    it("should throw error when accessToken is blank", () => {
+      expect(() => {
+        new NewAuth("", validPayload.refreshToken);
+      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    });
+
+    it("should throw error when refreshToken is blank", () => {
+      expect(() => {
+        new NewAuth(validPayload.accessToken, "");
+      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    });
   });
 
-  it("should throw error when accessToken is only spaces", () => {
-    expect(() => {
-      new NewAuth("   ", "refresh-token-456");
-    }).toThrow(errorMessageKey);
+  describe("setter success case", () => {
+    it("should update accessToken when valid", () => {
+      auth.setAccessToken("new-access-token");
+      expect(auth.getAccessToken()).toBe("new-access-token");
+    });
+
+    it("should update refreshToken when valid", () => {
+      auth.setRefreshToken("new-refresh-token");
+      expect(auth.getRefreshToken()).toBe("new-refresh-token");
+    });
   });
 
-  it("should throw error when refreshToken is empty", () => {
-    expect(() => {
-      new NewAuth("access-token-123", "");
-    }).toThrow(errorMessageKey);
-  });
+  describe("setter error case", () => {
+    it("should throw error when setting blank accessToken", () => {
+      expect(() => auth.setAccessToken("")).toThrowError(
+        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
+    });
 
-  it("should throw error when refreshToken is only spaces", () => {
-    expect(() => {
-      new NewAuth("access-token-123", "   ");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should allow updating accessToken with valid value", () => {
-    const auth = new NewAuth("access-token-123", "refresh-token-456");
-
-    auth.setAccessToken("new-access-token");
-
-    expect(auth.getAccessToken()).toBe("new-access-token");
-  });
-
-  it("should throw error when updating accessToken with blank value", () => {
-    const auth = new NewAuth("access-token-123", "refresh-token-456");
-
-    expect(() => {
-      auth.setAccessToken("");
-    }).toThrow(errorMessageKey);
-  });
-
-  it("should allow updating refreshToken with valid value", () => {
-    const auth = new NewAuth("access-token-123", "refresh-token-456");
-
-    auth.setRefreshToken("new-refresh-token");
-
-    expect(auth.getRefreshToken()).toBe("new-refresh-token");
-  });
-
-  it("should throw error when updating refreshToken with blank value", () => {
-    const auth = new NewAuth("access-token-123", "refresh-token-456");
-
-    expect(() => {
-      auth.setRefreshToken("   ");
-    }).toThrow(errorMessageKey);
+    it("should throw error when setting blank refreshToken", () => {
+      expect(() => auth.setRefreshToken("")).toThrowError(
+        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
+    });
   });
 });
