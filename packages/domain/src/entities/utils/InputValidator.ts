@@ -7,6 +7,7 @@ class InputValidator {
   private static readonly INDONESIAN_PHONE_NUMBER_PATTERN =
     /^(?:\+62|62|0)8[1-9][0-9]{7,10}$/;
   private static readonly USERNAME_PATTERN = /^[\w]+$/;
+  private static readonly TIME_24H_PATTERN = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
   public static requireNotBlank(value: string, errorMessageKey: string): void {
     if (!value || value.trim().length === 0) {
@@ -75,6 +76,15 @@ class InputValidator {
   ): void {
     if (!values || values.length === 0) {
       throw new Error(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+    }
+  }
+
+  public static isValidTimeFormat(
+    value: string,
+    errorMessageKey: string,
+  ): void {
+    if (!this.TIME_24H_PATTERN.test(value)) {
+      throw new Error(`${errorMessageKey}.INVALID_TIME_FORMAT`);
     }
   }
 }

@@ -11,6 +11,10 @@ export { default as AddStore } from "./store/AddStore";
 export { default as StoreItem } from "./store/StoreItem";
 export { default as UpdateStore } from "./store/UpdateStore";
 
+// OUTLET_ENTITIES
+export { default as AddOutlet } from "./outlet/AddOutlet";
+export { default as OutletItem } from "./outlet/OutletItem";
+
 // CATEGORY_ENTITIES
 export { default as AddCategory } from "./category/AddCategory";
 export { default as CategoryItem } from "./category/CategoryItem";

@@ -272,4 +272,56 @@ describe("InputValidator", () => {
       }).not.toThrow();
     });
   });
+
+  describe("isValidTimeFormat function", () => {
+    it("should NOT throw error when time format is valid", () => {
+      expect(() =>
+        InputValidator.isValidTimeFormat("22:00", "OUTLET"),
+      ).not.toThrow();
+
+      expect(() =>
+        InputValidator.isValidTimeFormat("08:30", "OUTLET"),
+      ).not.toThrow();
+
+      expect(() =>
+        InputValidator.isValidTimeFormat("00:00", "OUTLET"),
+      ).not.toThrow();
+
+      expect(() =>
+        InputValidator.isValidTimeFormat("23:59", "OUTLET"),
+      ).not.toThrow();
+    });
+
+    it("should throw error when time format is invalid", () => {
+      expect(() =>
+        InputValidator.isValidTimeFormat("8:30", "OUTLET"),
+      ).toThrowError("OUTLET.INVALID_TIME_FORMAT");
+
+      expect(() =>
+        InputValidator.isValidTimeFormat("25:00", "OUTLET"),
+      ).toThrowError("OUTLET.INVALID_TIME_FORMAT");
+
+      expect(() =>
+        InputValidator.isValidTimeFormat("22.00", "OUTLET"),
+      ).toThrowError("OUTLET.INVALID_TIME_FORMAT");
+
+      expect(() =>
+        InputValidator.isValidTimeFormat("22:99", "OUTLET"),
+      ).toThrowError("OUTLET.INVALID_TIME_FORMAT");
+
+      expect(() =>
+        InputValidator.isValidTimeFormat("abcd", "OUTLET"),
+      ).toThrowError("OUTLET.INVALID_TIME_FORMAT");
+
+      expect(() => InputValidator.isValidTimeFormat("", "OUTLET")).toThrowError(
+        "OUTLET.INVALID_TIME_FORMAT",
+      );
+    });
+
+    it("should throw error with correct errorMessageKey", () => {
+      expect(() =>
+        InputValidator.isValidTimeFormat("99:99", "STORE"),
+      ).toThrowError("STORE.INVALID_TIME_FORMAT");
+    });
+  });
 });
