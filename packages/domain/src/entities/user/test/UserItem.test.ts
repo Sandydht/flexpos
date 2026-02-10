@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import UserItem from "../UserItem";
 import { UserRole } from "../types";
+import { USER_ITEM_ERROR_MESSAGE_KEY } from "../constants";
 
 describe("UserItem entity", () => {
-  const errorMessageKey: string = "USER_ITEM";
   const now = new Date("2026-03-02").toISOString();
   const validPayload = {
     id: "user-1",
@@ -65,7 +65,9 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when username is blank", () => {
@@ -83,7 +85,9 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when email is blank", () => {
@@ -101,7 +105,9 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when phoneNumber is blank", () => {
@@ -119,7 +125,9 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when fullName is blank", () => {
@@ -137,7 +145,9 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when address is blank", () => {
@@ -155,7 +165,9 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when roles is blank", () => {
@@ -173,7 +185,9 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when createdAt is blank", () => {
@@ -191,7 +205,9 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when username exceeds character limit", () => {
@@ -209,7 +225,7 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.USERNAME_LIMIT_CHAR`);
+      }).toThrowError(`${USER_ITEM_ERROR_MESSAGE_KEY}.USERNAME_LIMIT_CHAR`);
     });
 
     it("should throw error when username contains restricted character", () => {
@@ -228,7 +244,7 @@ describe("UserItem entity", () => {
           validPayload.deletedAt,
         );
       }).toThrowError(
-        `${errorMessageKey}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
       );
     });
 
@@ -247,7 +263,7 @@ describe("UserItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.INVALID_EMAIL_FORMAT`);
+      }).toThrowError(`${USER_ITEM_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`);
     });
 
     it("should throw error when phoneNumber is invalid indonesian format", () => {
@@ -266,7 +282,7 @@ describe("UserItem entity", () => {
           validPayload.deletedAt,
         );
       }).toThrowError(
-        `${errorMessageKey}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`,
       );
     });
   });
@@ -335,73 +351,73 @@ describe("UserItem entity", () => {
   describe("setter error case", () => {
     it("should throw error when setting blank id", () => {
       expect(() => user.setId("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank username", () => {
       expect(() => user.setUsername("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank email", () => {
       expect(() => user.setEmail("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank phoneNumber", () => {
       expect(() => user.setPhoneNumber("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank fullName", () => {
       expect(() => user.setFullName("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank address", () => {
       expect(() => user.setAddress("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank roles", () => {
       expect(() => user.setRoles([])).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank createdAt", () => {
       expect(() => user.setCreatedAt("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting exceeds character limit username", () => {
       expect(() => user.setUsername("user".repeat(51))).toThrowError(
-        `${errorMessageKey}.USERNAME_LIMIT_CHAR`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.USERNAME_LIMIT_CHAR`,
       );
     });
 
     it("should throw error when setting contains restricted character username", () => {
       expect(() => user.setUsername("user@123")).toThrowError(
-        `${errorMessageKey}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
       );
     });
 
     it("should throw error when setting invalid email format", () => {
       expect(() => user.setEmail("invalid-email")).toThrowError(
-        `${errorMessageKey}.INVALID_EMAIL_FORMAT`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`,
       );
     });
 
     it("should throw error when setting invalid indonesian phoneNumber format", () => {
       expect(() => user.setPhoneNumber("1234")).toThrowError(
-        `${errorMessageKey}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`,
+        `${USER_ITEM_ERROR_MESSAGE_KEY}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`,
       );
     });
   });

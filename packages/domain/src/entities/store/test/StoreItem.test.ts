@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import StoreItem from "../StoreItem";
+import { STORE_ITEM_ERROR_MESSAGE_KEY } from "../constants";
 
 describe("StoreItem entity", () => {
-  const errorMessageKey: string = "STORE_ITEM";
   const now = new Date("2026-03-02").toISOString();
   const validPayload = {
     id: "store-1",
@@ -44,7 +44,9 @@ describe("StoreItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when name is blank", () => {
@@ -57,7 +59,9 @@ describe("StoreItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when createdAt is blank", () => {
@@ -70,7 +74,9 @@ describe("StoreItem entity", () => {
           validPayload.updatedAt,
           validPayload.deletedAt,
         );
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
   });
 
@@ -94,19 +100,19 @@ describe("StoreItem entity", () => {
   describe("setter error case", () => {
     it("should throw error when setting blank id", () => {
       expect(() => store.setId("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank name", () => {
       expect(() => store.setName("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank createdAt", () => {
       expect(() => store.setCreatedAt("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
   });

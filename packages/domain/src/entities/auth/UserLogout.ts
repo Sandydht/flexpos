@@ -1,8 +1,7 @@
 import InputValidator from "../utils/InputValidator";
+import { USER_LOGOUT_ERROR_MESSAGE_KEY } from "./constants";
 
 class UserLogout {
-  private readonly errorMessageKey: string = "USER_LOGOUT";
-
   private refreshToken: string;
 
   constructor(refreshToken: string) {
@@ -12,7 +11,7 @@ class UserLogout {
   }
 
   private _verifyPayload(refreshToken: string) {
-    InputValidator.requireNotBlank(refreshToken, this.errorMessageKey);
+    InputValidator.requireNotBlank(refreshToken, USER_LOGOUT_ERROR_MESSAGE_KEY);
   }
 
   getRefreshToken(): string {
@@ -20,7 +19,7 @@ class UserLogout {
   }
 
   setRefreshToken(refreshToken: string) {
-    InputValidator.requireNotBlank(refreshToken, this.errorMessageKey);
+    InputValidator.requireNotBlank(refreshToken, USER_LOGOUT_ERROR_MESSAGE_KEY);
     this.refreshToken = refreshToken;
   }
 }

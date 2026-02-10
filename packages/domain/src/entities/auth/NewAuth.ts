@@ -1,8 +1,7 @@
 import InputValidator from "../utils/InputValidator";
+import { NEW_AUTH_ERROR_MESSAGE_KEY } from "./constants";
 
 class NewAuth {
-  private readonly errorMessageKey: string = "NEW_AUTH";
-
   private accessToken: string;
   private refreshToken: string;
 
@@ -14,8 +13,8 @@ class NewAuth {
   }
 
   private _verifyPayload(accessToken: string, refreshToken: string) {
-    InputValidator.requireNotBlank(accessToken, this.errorMessageKey);
-    InputValidator.requireNotBlank(refreshToken, this.errorMessageKey);
+    InputValidator.requireNotBlank(accessToken, NEW_AUTH_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(refreshToken, NEW_AUTH_ERROR_MESSAGE_KEY);
   }
 
   getAccessToken(): string {
@@ -23,7 +22,7 @@ class NewAuth {
   }
 
   setAccessToken(accessToken: string) {
-    InputValidator.requireNotBlank(accessToken, this.errorMessageKey);
+    InputValidator.requireNotBlank(accessToken, NEW_AUTH_ERROR_MESSAGE_KEY);
     this.accessToken = accessToken;
   }
 
@@ -32,7 +31,7 @@ class NewAuth {
   }
 
   setRefreshToken(refreshToken: string) {
-    InputValidator.requireNotBlank(refreshToken, this.errorMessageKey);
+    InputValidator.requireNotBlank(refreshToken, NEW_AUTH_ERROR_MESSAGE_KEY);
     this.refreshToken = refreshToken;
   }
 }

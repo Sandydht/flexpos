@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import AddStore from "../AddStore";
+import { ADD_STORE_ERROR_MESSAGE_KEY } from "../constants";
 
 describe("AddStore entity", () => {
-  const errorMessageKey: string = "ADD_STORE";
   const validPayload = {
     userId: "user-1",
     name: "Store 1",
@@ -21,13 +21,17 @@ describe("AddStore entity", () => {
     it("should throw error when userId is blank", () => {
       expect(() => {
         new AddStore("", validPayload.name);
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${ADD_STORE_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when name is blank", () => {
       expect(() => {
         new AddStore(validPayload.userId, "");
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${ADD_STORE_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
   });
 
@@ -46,13 +50,13 @@ describe("AddStore entity", () => {
   describe("setter error case", () => {
     it("should throw error when setting blank userId", () => {
       expect(() => store.setUserId("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${ADD_STORE_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank name", () => {
       expect(() => store.setName("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${ADD_STORE_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
   });

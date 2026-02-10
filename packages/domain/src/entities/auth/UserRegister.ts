@@ -1,8 +1,7 @@
 import InputValidator from "../utils/InputValidator";
+import { USER_REGISTER_ERROR_MESSAGE_KEY } from "./constants";
 
 class UserRegister {
-  private readonly errorMessageKey: string = "USER_REGISTER";
-
   private username: string;
   private email: string;
   private phoneNumber: string;
@@ -43,20 +42,23 @@ class UserRegister {
     address: string,
     password: string,
   ) {
-    InputValidator.requireNotBlank(username, this.errorMessageKey);
-    InputValidator.requireNotBlank(email, this.errorMessageKey);
-    InputValidator.requireNotBlank(phoneNumber, this.errorMessageKey);
-    InputValidator.requireNotBlank(fullName, this.errorMessageKey);
-    InputValidator.requireNotBlank(address, this.errorMessageKey);
-    InputValidator.requireNotBlank(password, this.errorMessageKey);
+    InputValidator.requireNotBlank(username, USER_REGISTER_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(email, USER_REGISTER_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(
+      phoneNumber,
+      USER_REGISTER_ERROR_MESSAGE_KEY,
+    );
+    InputValidator.requireNotBlank(fullName, USER_REGISTER_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(address, USER_REGISTER_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(password, USER_REGISTER_ERROR_MESSAGE_KEY);
 
-    InputValidator.validateUsername(username, this.errorMessageKey);
-    InputValidator.emailValidFormat(email, this.errorMessageKey);
+    InputValidator.validateUsername(username, USER_REGISTER_ERROR_MESSAGE_KEY);
+    InputValidator.emailValidFormat(email, USER_REGISTER_ERROR_MESSAGE_KEY);
     InputValidator.indonesianPhoneNumberValidFormat(
       phoneNumber,
-      this.errorMessageKey,
+      USER_REGISTER_ERROR_MESSAGE_KEY,
     );
-    InputValidator.validatePassword(password, this.errorMessageKey);
+    InputValidator.validatePassword(password, USER_REGISTER_ERROR_MESSAGE_KEY);
   }
 
   getUsername(): string {
@@ -64,8 +66,8 @@ class UserRegister {
   }
 
   setUsername(username: string) {
-    InputValidator.requireNotBlank(username, this.errorMessageKey);
-    InputValidator.validateUsername(username, this.errorMessageKey);
+    InputValidator.requireNotBlank(username, USER_REGISTER_ERROR_MESSAGE_KEY);
+    InputValidator.validateUsername(username, USER_REGISTER_ERROR_MESSAGE_KEY);
     this.username = username;
   }
 
@@ -74,8 +76,8 @@ class UserRegister {
   }
 
   setEmail(email: string) {
-    InputValidator.requireNotBlank(email, this.errorMessageKey);
-    InputValidator.emailValidFormat(email, this.errorMessageKey);
+    InputValidator.requireNotBlank(email, USER_REGISTER_ERROR_MESSAGE_KEY);
+    InputValidator.emailValidFormat(email, USER_REGISTER_ERROR_MESSAGE_KEY);
     this.email = email;
   }
 
@@ -84,10 +86,13 @@ class UserRegister {
   }
 
   setPhoneNumber(phoneNumber: string) {
-    InputValidator.requireNotBlank(phoneNumber, this.errorMessageKey);
+    InputValidator.requireNotBlank(
+      phoneNumber,
+      USER_REGISTER_ERROR_MESSAGE_KEY,
+    );
     InputValidator.indonesianPhoneNumberValidFormat(
       phoneNumber,
-      this.errorMessageKey,
+      USER_REGISTER_ERROR_MESSAGE_KEY,
     );
     this.phoneNumber = phoneNumber;
   }
@@ -97,7 +102,7 @@ class UserRegister {
   }
 
   setFullName(fullName: string) {
-    InputValidator.requireNotBlank(fullName, this.errorMessageKey);
+    InputValidator.requireNotBlank(fullName, USER_REGISTER_ERROR_MESSAGE_KEY);
     this.fullName = fullName;
   }
 
@@ -106,7 +111,7 @@ class UserRegister {
   }
 
   setAddress(address: string) {
-    InputValidator.requireNotBlank(address, this.errorMessageKey);
+    InputValidator.requireNotBlank(address, USER_REGISTER_ERROR_MESSAGE_KEY);
     this.address = address;
   }
 
@@ -115,8 +120,8 @@ class UserRegister {
   }
 
   setPassword(password: string) {
-    InputValidator.requireNotBlank(password, this.errorMessageKey);
-    InputValidator.validatePassword(password, this.errorMessageKey);
+    InputValidator.requireNotBlank(password, USER_REGISTER_ERROR_MESSAGE_KEY);
+    InputValidator.validatePassword(password, USER_REGISTER_ERROR_MESSAGE_KEY);
     this.password = password;
   }
 }

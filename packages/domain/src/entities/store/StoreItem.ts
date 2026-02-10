@@ -1,8 +1,7 @@
 import InputValidator from "../utils/InputValidator";
+import { STORE_ITEM_ERROR_MESSAGE_KEY } from "./constants";
 
 class StoreItem<T> {
-  private readonly errorMessageKey: string = "STORE_ITEM";
-
   private id: string;
   private owner: T;
   private name: string;
@@ -29,9 +28,9 @@ class StoreItem<T> {
   }
 
   private _verifyPayload(id: string, name: string, createdAt: string) {
-    InputValidator.requireNotBlank(id, this.errorMessageKey);
-    InputValidator.requireNotBlank(name, this.errorMessageKey);
-    InputValidator.requireNotBlank(createdAt, this.errorMessageKey);
+    InputValidator.requireNotBlank(id, STORE_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(name, STORE_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(createdAt, STORE_ITEM_ERROR_MESSAGE_KEY);
   }
 
   getId(): string {
@@ -39,7 +38,7 @@ class StoreItem<T> {
   }
 
   setId(id: string) {
-    InputValidator.requireNotBlank(id, this.errorMessageKey);
+    InputValidator.requireNotBlank(id, STORE_ITEM_ERROR_MESSAGE_KEY);
     this.id = id;
   }
 
@@ -56,7 +55,7 @@ class StoreItem<T> {
   }
 
   setName(name: string) {
-    InputValidator.requireNotBlank(name, this.errorMessageKey);
+    InputValidator.requireNotBlank(name, STORE_ITEM_ERROR_MESSAGE_KEY);
     this.name = name;
   }
 
@@ -65,7 +64,7 @@ class StoreItem<T> {
   }
 
   setCreatedAt(createdAt: string) {
-    InputValidator.requireNotBlank(createdAt, this.errorMessageKey);
+    InputValidator.requireNotBlank(createdAt, STORE_ITEM_ERROR_MESSAGE_KEY);
     this.createdAt = createdAt;
   }
 

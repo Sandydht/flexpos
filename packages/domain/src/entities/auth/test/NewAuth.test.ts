@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import NewAuth from "../NewAuth";
+import { NEW_AUTH_ERROR_MESSAGE_KEY } from "../constants";
 
 describe("NewAuth Entity", () => {
-  const errorMessageKey: string = "NEW_AUTH";
   const validPayload = {
     accessToken: "access-token",
     refreshToken: "refresh-token",
@@ -24,13 +24,17 @@ describe("NewAuth Entity", () => {
     it("should throw error when accessToken is blank", () => {
       expect(() => {
         new NewAuth("", validPayload.refreshToken);
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${NEW_AUTH_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when refreshToken is blank", () => {
       expect(() => {
         new NewAuth(validPayload.accessToken, "");
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${NEW_AUTH_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
   });
 
@@ -49,13 +53,13 @@ describe("NewAuth Entity", () => {
   describe("setter error case", () => {
     it("should throw error when setting blank accessToken", () => {
       expect(() => auth.setAccessToken("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${NEW_AUTH_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank refreshToken", () => {
       expect(() => auth.setRefreshToken("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${NEW_AUTH_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
   });

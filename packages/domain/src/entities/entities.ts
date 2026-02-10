@@ -6,6 +6,11 @@ export { default as NewAuth } from "./auth/NewAuth";
 // USER_ENTITIES
 export { default as UserItem } from "./user/UserItem";
 
+// STORE_ENTITIES
+export { default as AddStore } from "./store/AddStore";
+export { default as StoreItem } from "./store/StoreItem";
+export { default as UpdateStore } from "./store/UpdateStore";
+
 // CATEGORY_ENTITIES
 export { default as AddCategory } from "./category/AddCategory";
 export { default as CategoryItem } from "./category/CategoryItem";

@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import UserLogin from "../UserLogin";
+import { USER_LOGIN_ERROR_MESSAGE_KEY } from "../constants";
 
 describe("UserLogin Entity", () => {
-  const errorMessageKey: string = "USER_LOGIN";
   const validPayload = {
     email: "example@email.com",
     password: "password123",
@@ -24,26 +24,30 @@ describe("UserLogin Entity", () => {
     it("should throw error when email is blank", () => {
       expect(() => {
         new UserLogin("", validPayload.password);
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_LOGIN_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when password is blank", () => {
       expect(() => {
         new UserLogin(validPayload.email, "");
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_LOGIN_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
 
     it("should throw error when email format is invalid", () => {
       expect(() => {
         new UserLogin("invalid-email", validPayload.password);
-      }).toThrowError(`${errorMessageKey}.INVALID_EMAIL_FORMAT`);
+      }).toThrowError(`${USER_LOGIN_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`);
     });
 
     it("should throw error when password less than 8 characters", () => {
       expect(() => {
         new UserLogin(validPayload.email, "sec123");
       }).toThrowError(
-        `${errorMessageKey}.PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS_LONG`,
+        `${USER_LOGIN_ERROR_MESSAGE_KEY}.PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS_LONG`,
       );
     });
 
@@ -51,14 +55,16 @@ describe("UserLogin Entity", () => {
       expect(() => {
         new UserLogin(validPayload.email, "password");
       }).toThrowError(
-        `${errorMessageKey}.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LETTER_AND_ONE_NUMBER`,
+        `${USER_LOGIN_ERROR_MESSAGE_KEY}.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LETTER_AND_ONE_NUMBER`,
       );
     });
 
     it("should throw error when password contain space", () => {
       expect(() => {
         new UserLogin(validPayload.email, "password 123");
-      }).toThrowError(`${errorMessageKey}.PASSWORD_MUST_NOT_CONTAIN_SPACES`);
+      }).toThrowError(
+        `${USER_LOGIN_ERROR_MESSAGE_KEY}.PASSWORD_MUST_NOT_CONTAIN_SPACES`,
+      );
     });
   });
 
@@ -77,13 +83,13 @@ describe("UserLogin Entity", () => {
   describe("setter error case", () => {
     it("should throw error when setting blank email", () => {
       expect(() => user.setEmail("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_LOGIN_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when setting blank password", () => {
       expect(() => user.setPassword("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_LOGIN_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
   });

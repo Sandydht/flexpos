@@ -6,8 +6,8 @@ import UserRepository from "../../../repositories/UserRepository";
 
 describe("GetUserProfileUseCase", () => {
   it("should call repository getUserProfile and return UserItem entity", async () => {
-    const now = new Date("2026-3-02").toISOString();
-    const mockUserProfile = new UserItem(
+    const now = new Date("2026-03-02").toISOString();
+    const mockUserItem = new UserItem(
       "user-1",
       null,
       "user",
@@ -22,15 +22,17 @@ describe("GetUserProfileUseCase", () => {
     );
 
     const mockUserRepository: UserRepository = {
-      getUserProfile: vi.fn().mockResolvedValue(mockUserProfile),
+      getUserProfile: vi.fn().mockResolvedValue(mockUserItem),
     };
 
-    const useCase = new GetUserProfileUseCase(mockUserRepository);
+    const useCase: GetUserProfileUseCase = new GetUserProfileUseCase(
+      mockUserRepository,
+    );
 
     const result = await useCase.execute();
 
     expect(mockUserRepository.getUserProfile).toHaveBeenCalledOnce();
-    expect(result).toStrictEqual(mockUserProfile);
+    expect(result).toStrictEqual(mockUserItem);
   });
 
   it("should throw error when repository throws error", async () => {
@@ -39,7 +41,9 @@ describe("GetUserProfileUseCase", () => {
       getUserProfile: vi.fn().mockRejectedValue(mockError),
     };
 
-    const useCase = new GetUserProfileUseCase(mockUserRepository);
+    const useCase: GetUserProfileUseCase = new GetUserProfileUseCase(
+      mockUserRepository,
+    );
 
     await expect(useCase.execute()).rejects.toThrow(mockError.message);
   });

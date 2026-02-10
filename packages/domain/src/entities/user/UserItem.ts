@@ -1,9 +1,8 @@
 import InputValidator from "../utils/InputValidator";
+import { USER_ITEM_ERROR_MESSAGE_KEY } from "./constants";
 import { UserRole } from "./types";
 
 class UserItem {
-  private readonly errorMessageKey: string = "USER_ITEM";
-
   private id: string;
   private photoUrl: string | null;
   private username: string;
@@ -63,21 +62,24 @@ class UserItem {
     roles: UserRole[],
     createdAt: string,
   ) {
-    InputValidator.requireNotBlank(id, this.errorMessageKey);
-    InputValidator.requireNotBlank(username, this.errorMessageKey);
-    InputValidator.requireNotBlank(email, this.errorMessageKey);
-    InputValidator.requireNotBlank(phoneNumber, this.errorMessageKey);
-    InputValidator.requireNotBlank(fullName, this.errorMessageKey);
-    InputValidator.requireNotBlank(address, this.errorMessageKey);
-    InputValidator.requireNotBlank(createdAt, this.errorMessageKey);
+    InputValidator.requireNotBlank(id, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(username, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(email, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(phoneNumber, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(fullName, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(address, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(createdAt, USER_ITEM_ERROR_MESSAGE_KEY);
 
-    InputValidator.requireNotBlankArray<UserRole>(roles, this.errorMessageKey);
+    InputValidator.requireNotBlankArray<UserRole>(
+      roles,
+      USER_ITEM_ERROR_MESSAGE_KEY,
+    );
 
-    InputValidator.validateUsername(username, this.errorMessageKey);
-    InputValidator.emailValidFormat(email, this.errorMessageKey);
+    InputValidator.validateUsername(username, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.emailValidFormat(email, USER_ITEM_ERROR_MESSAGE_KEY);
     InputValidator.indonesianPhoneNumberValidFormat(
       phoneNumber,
-      this.errorMessageKey,
+      USER_ITEM_ERROR_MESSAGE_KEY,
     );
   }
 
@@ -86,7 +88,7 @@ class UserItem {
   }
 
   setId(id: string) {
-    InputValidator.requireNotBlank(id, this.errorMessageKey);
+    InputValidator.requireNotBlank(id, USER_ITEM_ERROR_MESSAGE_KEY);
     this.id = id;
   }
 
@@ -103,8 +105,8 @@ class UserItem {
   }
 
   setUsername(username: string) {
-    InputValidator.requireNotBlank(username, this.errorMessageKey);
-    InputValidator.validateUsername(username, this.errorMessageKey);
+    InputValidator.requireNotBlank(username, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.validateUsername(username, USER_ITEM_ERROR_MESSAGE_KEY);
     this.username = username;
   }
 
@@ -113,8 +115,8 @@ class UserItem {
   }
 
   setEmail(email: string) {
-    InputValidator.requireNotBlank(email, this.errorMessageKey);
-    InputValidator.emailValidFormat(email, this.errorMessageKey);
+    InputValidator.requireNotBlank(email, USER_ITEM_ERROR_MESSAGE_KEY);
+    InputValidator.emailValidFormat(email, USER_ITEM_ERROR_MESSAGE_KEY);
     this.email = email;
   }
 
@@ -123,10 +125,10 @@ class UserItem {
   }
 
   setPhoneNumber(phoneNumber: string) {
-    InputValidator.requireNotBlank(phoneNumber, this.errorMessageKey);
+    InputValidator.requireNotBlank(phoneNumber, USER_ITEM_ERROR_MESSAGE_KEY);
     InputValidator.indonesianPhoneNumberValidFormat(
       phoneNumber,
-      this.errorMessageKey,
+      USER_ITEM_ERROR_MESSAGE_KEY,
     );
     this.phoneNumber = phoneNumber;
   }
@@ -136,7 +138,7 @@ class UserItem {
   }
 
   setFullName(fullName: string) {
-    InputValidator.requireNotBlank(fullName, this.errorMessageKey);
+    InputValidator.requireNotBlank(fullName, USER_ITEM_ERROR_MESSAGE_KEY);
     this.fullName = fullName;
   }
 
@@ -145,7 +147,7 @@ class UserItem {
   }
 
   setAddress(address: string) {
-    InputValidator.requireNotBlank(address, this.errorMessageKey);
+    InputValidator.requireNotBlank(address, USER_ITEM_ERROR_MESSAGE_KEY);
     this.address = address;
   }
 
@@ -154,7 +156,10 @@ class UserItem {
   }
 
   setRoles(roles: UserRole[]) {
-    InputValidator.requireNotBlankArray<UserRole>(roles, this.errorMessageKey);
+    InputValidator.requireNotBlankArray<UserRole>(
+      roles,
+      USER_ITEM_ERROR_MESSAGE_KEY,
+    );
     this.roles = roles;
   }
 
@@ -163,7 +168,7 @@ class UserItem {
   }
 
   setCreatedAt(createdAt: string) {
-    InputValidator.requireNotBlank(createdAt, this.errorMessageKey);
+    InputValidator.requireNotBlank(createdAt, USER_ITEM_ERROR_MESSAGE_KEY);
     this.createdAt = createdAt;
   }
 

@@ -1,0 +1,1 @@
+export const USER_ITEM_ERROR_MESSAGE_KEY = "USER_ITEM";

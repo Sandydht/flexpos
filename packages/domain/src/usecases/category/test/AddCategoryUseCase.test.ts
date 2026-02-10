@@ -8,7 +8,7 @@ describe("AddCategoryUseCase", () => {
   const mockAddCategory: AddCategory = new AddCategory("Category 1", 1, true);
 
   it("should call repository addCategory and return CategoryItem entity", async () => {
-    const now = new Date().toISOString();
+    const now = new Date("2026-03-02").toISOString();
     const mockCategoryItem: CategoryItem = new CategoryItem(
       "category-1",
       "Category 1",

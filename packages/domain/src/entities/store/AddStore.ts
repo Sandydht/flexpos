@@ -1,8 +1,7 @@
 import InputValidator from "../utils/InputValidator";
+import { ADD_STORE_ERROR_MESSAGE_KEY } from "./constants";
 
 class AddStore {
-  private readonly errorMessageKey: string = "ADD_STORE";
-
   private userId: string;
   private name: string;
 
@@ -14,8 +13,8 @@ class AddStore {
   }
 
   private _verifyPayload(userId: string, name: string) {
-    InputValidator.requireNotBlank(userId, this.errorMessageKey);
-    InputValidator.requireNotBlank(name, this.errorMessageKey);
+    InputValidator.requireNotBlank(userId, ADD_STORE_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(name, ADD_STORE_ERROR_MESSAGE_KEY);
   }
 
   getUserId(): string {
@@ -23,7 +22,7 @@ class AddStore {
   }
 
   setUserId(userId: string) {
-    InputValidator.requireNotBlank(userId, this.errorMessageKey);
+    InputValidator.requireNotBlank(userId, ADD_STORE_ERROR_MESSAGE_KEY);
     this.userId = userId;
   }
 
@@ -32,7 +31,7 @@ class AddStore {
   }
 
   setName(name: string) {
-    InputValidator.requireNotBlank(name, this.errorMessageKey);
+    InputValidator.requireNotBlank(name, ADD_STORE_ERROR_MESSAGE_KEY);
     this.name = name;
   }
 }

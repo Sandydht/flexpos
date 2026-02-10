@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import UserLogout from "../UserLogout";
+import { USER_LOGOUT_ERROR_MESSAGE_KEY } from "../constants";
 
 describe("UserLogout Entity", () => {
-  const errorMessageKey: string = "USER_LOGOUT";
   const validPayload = {
     refreshToken: "refresh-token",
   };
@@ -19,7 +19,9 @@ describe("UserLogout Entity", () => {
     it("should throw error when refreshToken is blank", () => {
       expect(() => {
         new UserLogout("");
-      }).toThrowError(`${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`);
+      }).toThrowError(
+        `${USER_LOGOUT_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
+      );
     });
   });
 
@@ -33,7 +35,7 @@ describe("UserLogout Entity", () => {
   describe("setter error case", () => {
     it("should throw error when setting blank refreshToken", () => {
       expect(() => user.setRefreshToken("")).toThrowError(
-        `${errorMessageKey}.NOT_CONTAIN_NEEDED_PROPERTY`,
+        `${USER_LOGOUT_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
   });

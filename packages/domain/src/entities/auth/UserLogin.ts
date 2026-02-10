@@ -1,8 +1,7 @@
 import InputValidator from "../utils/InputValidator";
+import { USER_LOGIN_ERROR_MESSAGE_KEY } from "./constants";
 
 class UserLogin {
-  private readonly errorMessageKey: string = "USER_LOGIN";
-
   private email: string;
   private password: string;
 
@@ -14,10 +13,10 @@ class UserLogin {
   }
 
   private _verifyPayload(email: string, password: string) {
-    InputValidator.requireNotBlank(email, this.errorMessageKey);
-    InputValidator.requireNotBlank(password, this.errorMessageKey);
-    InputValidator.emailValidFormat(email, this.errorMessageKey);
-    InputValidator.validatePassword(password, this.errorMessageKey);
+    InputValidator.requireNotBlank(email, USER_LOGIN_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(password, USER_LOGIN_ERROR_MESSAGE_KEY);
+    InputValidator.emailValidFormat(email, USER_LOGIN_ERROR_MESSAGE_KEY);
+    InputValidator.validatePassword(password, USER_LOGIN_ERROR_MESSAGE_KEY);
   }
 
   getEmail(): string {
@@ -25,8 +24,8 @@ class UserLogin {
   }
 
   setEmail(email: string) {
-    InputValidator.requireNotBlank(email, this.errorMessageKey);
-    InputValidator.emailValidFormat(email, this.errorMessageKey);
+    InputValidator.requireNotBlank(email, USER_LOGIN_ERROR_MESSAGE_KEY);
+    InputValidator.emailValidFormat(email, USER_LOGIN_ERROR_MESSAGE_KEY);
     this.email = email;
   }
 
@@ -35,8 +34,8 @@ class UserLogin {
   }
 
   setPassword(password: string) {
-    InputValidator.requireNotBlank(password, this.errorMessageKey);
-    InputValidator.validatePassword(password, this.errorMessageKey);
+    InputValidator.requireNotBlank(password, USER_LOGIN_ERROR_MESSAGE_KEY);
+    InputValidator.validatePassword(password, USER_LOGIN_ERROR_MESSAGE_KEY);
     this.password = password;
   }
 }
