@@ -10,6 +10,7 @@ export { default as GetUserProfileUseCase } from "./user/GetUserProfileUseCase";
 export { default as AddStoreUseCase } from "./store/AddStoreUseCase";
 export { default as GetStoreDetailUseCase } from "./store/GetStoreDetailUseCase";
 export { default as UpdateStoreUseCase } from "./store/UpdateStoreUseCase";
+export { default as DeleteStoreUseCase } from "./store/DeleteStoreUseCase";
 
 // CATEGORY_USE_CASE
 export { default as AddCategoryUseCase } from "./category/AddCategoryUseCase";

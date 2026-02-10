@@ -7,4 +7,5 @@ export default interface StoreRepository {
   addStore(_payload: AddStore): Promise<StoreItem<UserItem>>;
   getStoreDetail(_id: string): Promise<StoreItem<UserItem>>;
   updateStore(_id: string, _payload: UpdateStore): Promise<StoreItem<UserItem>>;
+  deleteStore(_id: string): Promise<StoreItem<UserItem>>;
 }
