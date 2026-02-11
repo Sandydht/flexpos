@@ -14,6 +14,7 @@ export { default as UpdateStore } from "./store/UpdateStore";
 // OUTLET_ENTITIES
 export { default as AddOutlet } from "./outlet/AddOutlet";
 export { default as OutletItem } from "./outlet/OutletItem";
+export { default as UpdateOutlet } from "./outlet/UpdateOutlet";
 
 // CATEGORY_ENTITIES
 export { default as AddCategory } from "./category/AddCategory";

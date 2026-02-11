@@ -15,6 +15,10 @@ export { default as DeleteStoreUseCase } from "./store/DeleteStoreUseCase";
 
 // OUTLET_USE_CASE
 export { default as AddOutletUseCase } from "./outlet/AddOutletUseCase";
+export { default as GetOutletDetailUseCase } from "./outlet/GetOutletDetailUseCase";
+export { default as GetOutletListUseCase } from "./outlet/GetOutletListUseCase";
+export { default as UpdateOutletUseCase } from "./outlet/UpdateOutletUseCase";
+export { default as DeleteOutletUseCase } from "./outlet/DeleteOutletUseCase";
 
 // CATEGORY_USE_CASE
 export { default as AddCategoryUseCase } from "./category/AddCategoryUseCase";
