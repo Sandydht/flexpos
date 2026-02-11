@@ -4,13 +4,17 @@ type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends (...args: any[]) => any ? K : never;
 }[keyof T];
 
+type MockedRepo<T> = {
+  [K in FunctionKeys<T>]: ReturnType<typeof vi.fn>;
+};
+
 export const createMockRepository = <T extends object>(
   methods: FunctionKeys<T>[],
-): Partial<T> => {
-  const repo: Partial<T> = {};
+): MockedRepo<T> => {
+  const repo = {} as MockedRepo<T>;
 
   methods.forEach((method) => {
-    repo[method] = vi.fn() as any;
+    repo[method] = vi.fn();
   });
 
   return repo;

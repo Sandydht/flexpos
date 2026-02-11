@@ -1,6 +1,6 @@
-import { vi } from "vitest";
+import { Mocked } from "vitest";
 import UserRepository from "../../../../repositories/UserRepository";
+import { createMockRepository } from "../../../../test/helpers/testRepositoryFactory";
 
-export const mockUserRepository = (): Partial<UserRepository> => ({
-  getUserProfile: vi.fn(),
-});
+export const makeMockUserRepository = (): Mocked<UserRepository> =>
+  createMockRepository<UserRepository>(["getUserProfile"]) as any;

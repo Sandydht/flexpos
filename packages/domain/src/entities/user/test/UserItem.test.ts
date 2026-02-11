@@ -1,12 +1,16 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import UserItem from "../UserItem";
 import { USER_ITEM_ERROR_MESSAGE_KEY } from "../constants";
 import { makeUserItemPayload } from "./userEntityFactory";
-import { userFixture } from "../../../test/fixtures/userFixture";
+import { fixtures } from "../../../test/fixtures";
 
 describe("UserItem entity", () => {
-  const validPayload = userFixture();
-  const user: UserItem = makeUserItemPayload();
+  const { user: validPayload } = fixtures();
+  let user: UserItem;
+
+  beforeEach(() => {
+    user = makeUserItemPayload();
+  });
 
   describe("constructor success case", () => {
     it("should create UserItem entity when payload is valid", () => {

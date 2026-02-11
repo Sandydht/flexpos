@@ -1,12 +1,16 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import UserLogout from "../UserLogout";
 import { USER_LOGOUT_ERROR_MESSAGE_KEY } from "../constants";
-import { authFixture } from "../../../test/fixtures/authFixture";
 import { makeUserLogoutPayload } from "./authEntityFactory";
+import { fixtures } from "../../../test/fixtures";
 
 describe("UserLogout Entity", () => {
-  const validPayload = authFixture();
-  const user: UserLogout = makeUserLogoutPayload();
+  const { auth: validPayload } = fixtures();
+  let user: UserLogout;
+
+  beforeEach(() => {
+    user = makeUserLogoutPayload();
+  });
 
   describe("constructor success case", () => {
     it("should create UserLogout entity when payload is valid", () => {

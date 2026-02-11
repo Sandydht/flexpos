@@ -1,12 +1,16 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import NewAuth from "../NewAuth";
 import { NEW_AUTH_ERROR_MESSAGE_KEY } from "../constants";
-import { authFixture } from "../../../test/fixtures/authFixture";
 import { makeNewAuthPayload } from "./authEntityFactory";
+import { fixtures } from "../../../test/fixtures";
 
 describe("NewAuth Entity", () => {
-  const validPayload = authFixture();
-  const auth: NewAuth = makeNewAuthPayload();
+  const { auth: validPayload } = fixtures();
+  let auth: NewAuth;
+
+  beforeEach(() => {
+    auth = makeNewAuthPayload();
+  });
 
   describe("constructor success case", () => {
     it("should create NewAuth entity when payload is valid", () => {

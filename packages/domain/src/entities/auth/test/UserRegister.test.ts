@@ -1,12 +1,16 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import UserRegister from "../UserRegister";
 import { USER_REGISTER_ERROR_MESSAGE_KEY } from "../constants";
 import { makeUserRegisterPayload } from "./authEntityFactory";
-import { userFixture } from "../../../test/fixtures/userFixture";
+import { fixtures } from "../../../test/fixtures";
 
 describe("UserRegister Entity", () => {
-  const validPayload = userFixture();
-  const user: UserRegister = makeUserRegisterPayload();
+  const { user: validPayload } = fixtures();
+  let user: UserRegister;
+
+  beforeEach(() => {
+    user = makeUserRegisterPayload();
+  });
 
   describe("constructor success case", () => {
     it("should create UserRegister entity when payload is valid", () => {

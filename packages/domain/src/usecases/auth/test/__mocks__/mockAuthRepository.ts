@@ -1,8 +1,10 @@
-import { vi } from "vitest";
+import { Mocked } from "vitest";
 import AuthRepository from "../../../../repositories/AuthRepository";
+import { createMockRepository } from "../../../../test/helpers/testRepositoryFactory";
 
-export const mockAuthRepository = (): Partial<AuthRepository> => ({
-  registerAccount: vi.fn(),
-  loginAccount: vi.fn(),
-  logoutAccount: vi.fn(),
-});
+export const makeMockAuthRepository = (): Mocked<AuthRepository> =>
+  createMockRepository<AuthRepository>([
+    "registerAccount",
+    "loginAccount",
+    "logoutAccount",
+  ]) as any;

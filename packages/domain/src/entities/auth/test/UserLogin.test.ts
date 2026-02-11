@@ -1,17 +1,21 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import UserLogin from "../UserLogin";
 import { USER_LOGIN_ERROR_MESSAGE_KEY } from "../constants";
-import { userFixture } from "../../../test/fixtures/userFixture";
 import { makeUserLoginPayload } from "./authEntityFactory";
+import { fixtures } from "../../../test/fixtures";
 
 describe("UserLogin Entity", () => {
-  const validPayload = userFixture();
-  const user: UserLogin = makeUserLoginPayload();
+  const { user: validPayloadUser } = fixtures();
+  let user: UserLogin;
+
+  beforeEach(() => {
+    user = makeUserLoginPayload();
+  });
 
   describe("constructor success case", () => {
     it("should create UserLogin entity when payload is valid", () => {
-      expect(user.getEmail()).toBe(validPayload.email);
-      expect(user.getPassword()).toBe(validPayload.password);
+      expect(user.getEmail()).toBe(validPayloadUser.email);
+      expect(user.getPassword()).toBe(validPayloadUser.password);
     });
   });
 
@@ -57,13 +61,13 @@ describe("UserLogin Entity", () => {
 
   describe("setter success case", () => {
     it("should update email when valid", () => {
-      user.setEmail(validPayload.email);
-      expect(user.getEmail()).toBe(validPayload.email);
+      user.setEmail(validPayloadUser.email);
+      expect(user.getEmail()).toBe(validPayloadUser.email);
     });
 
     it("should update password when valid", () => {
-      user.setPassword(validPayload.password);
-      expect(user.getPassword()).toBe(validPayload.password);
+      user.setPassword(validPayloadUser.password);
+      expect(user.getPassword()).toBe(validPayloadUser.password);
     });
   });
 

@@ -1,37 +1,43 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach, Mocked } from "vitest";
 
 import GetUserProfileUseCase from "../GetUserProfileUseCase";
 import UserItem from "../../../entities/user/UserItem";
 import { makeUserItemPayload } from "../../../entities/user/test/userEntityFactory";
-import { mockUserRepository } from "./__mocks__/mockUserRepository";
 import { mockError } from "../../../test/helpers/mockError";
 import UserRepository from "../../../repositories/UserRepository";
+import { makeMockUserRepository } from "./__mocks__/mockUserRepository";
 
 describe("GetUserProfileUseCase", () => {
-  const repository: Partial<UserRepository> = mockUserRepository();
+  let mockUserRepository: Mocked<UserRepository>;
+
+  beforeEach(() => {
+    mockUserRepository = makeMockUserRepository();
+  });
 
   it("should call repository getUserProfile and return UserItem entity", async () => {
     const mockUserItem: UserItem = makeUserItemPayload();
 
-    repository.getUserProfile = vi.fn().mockResolvedValue(mockUserItem);
+    mockUserRepository.getUserProfile.mockResolvedValue(mockUserItem);
 
     const useCase: GetUserProfileUseCase = new GetUserProfileUseCase(
-      repository as UserRepository,
+      mockUserRepository as UserRepository,
     );
 
     const result = await useCase.execute();
 
-    expect(repository.getUserProfile).toHaveBeenCalledOnce();
+    expect(mockUserRepository.getUserProfile).toHaveBeenCalledOnce();
     expect(result).toStrictEqual(mockUserItem);
   });
 
   it("should throw error when repository throws error", async () => {
-    repository.getUserProfile = vi.fn().mockRejectedValue(mockError());
+    const error: Error = mockError();
+
+    mockUserRepository.getUserProfile.mockRejectedValue(error);
 
     const useCase: GetUserProfileUseCase = new GetUserProfileUseCase(
-      repository as UserRepository,
+      mockUserRepository as UserRepository,
     );
 
-    await expect(useCase.execute()).rejects.toThrow(mockError());
+    await expect(useCase.execute()).rejects.toThrow(error);
   });
 });

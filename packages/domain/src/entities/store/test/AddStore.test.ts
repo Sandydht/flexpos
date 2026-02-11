@@ -1,35 +1,33 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import AddStore from "../AddStore";
 import { ADD_STORE_ERROR_MESSAGE_KEY } from "../constants";
+import { makeAddStorePayload } from "./storeEntityFactory";
+import { fixtures } from "../../../test/fixtures";
 
 describe("AddStore entity", () => {
-  const validPayload = {
-    userId: "user-1",
-    name: "Store 1",
-  };
+  const { user: validPayloadUser, store: validPayloadStore } = fixtures();
+  let store: AddStore;
 
-  const store: AddStore = new AddStore(validPayload.userId, validPayload.name);
+  beforeEach(() => {
+    store = makeAddStorePayload();
+  });
 
   describe("constructor success case", () => {
     it("should create AddStore entity when payload is valid", () => {
-      expect(store.getUserId()).toBe(validPayload.userId);
-      expect(store.getName()).toBe(validPayload.name);
+      expect(store.getUserId()).toBe(validPayloadUser.id);
+      expect(store.getName()).toBe(validPayloadStore.name);
     });
   });
 
   describe("constructor error case", () => {
     it("should throw error when userId is blank", () => {
-      expect(() => {
-        new AddStore("", validPayload.name);
-      }).toThrowError(
+      expect(() => makeAddStorePayload({ user: { id: "" } })).toThrowError(
         `${ADD_STORE_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when name is blank", () => {
-      expect(() => {
-        new AddStore(validPayload.userId, "");
-      }).toThrowError(
+      expect(() => makeAddStorePayload({ store: { name: "" } })).toThrowError(
         `${ADD_STORE_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
@@ -37,13 +35,13 @@ describe("AddStore entity", () => {
 
   describe("setter success case", () => {
     it("should update userId when valid", () => {
-      store.setUserId(validPayload.userId);
-      expect(store.getUserId()).toBe(validPayload.userId);
+      store.setUserId(validPayloadUser.id);
+      expect(store.getUserId()).toBe(validPayloadUser.id);
     });
 
     it("should update name when valid", () => {
-      store.setName(validPayload.name);
-      expect(store.getName()).toBe(validPayload.name);
+      store.setName(validPayloadStore.name);
+      expect(store.getName()).toBe(validPayloadStore.name);
     });
   });
 

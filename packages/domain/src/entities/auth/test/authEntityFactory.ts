@@ -1,3 +1,4 @@
+import { fixtures } from "../../../test/fixtures";
 import { authFixture } from "../../../test/fixtures/authFixture";
 import { userFixture } from "../../../test/fixtures/userFixture";
 import NewAuth from "../NewAuth";
@@ -5,47 +6,41 @@ import UserLogin from "../UserLogin";
 import UserLogout from "../UserLogout";
 import UserRegister from "../UserRegister";
 
-export const makeNewAuthPayload = (override?: Partial<any>): NewAuth => {
-  const validPayload = {
-    ...authFixture(),
-    ...override,
-  };
+export const makeNewAuthPayload = (
+  override?: Partial<ReturnType<typeof authFixture>>,
+): NewAuth => {
+  const { auth } = fixtures({ auth: override });
 
-  return new NewAuth(validPayload.accessToken, validPayload.refreshToken);
+  return new NewAuth(auth.accessToken, auth.refreshToken);
 };
 
-export const makeUserLoginPayload = (override?: Partial<any>): UserLogin => {
-  const validPayload = {
-    ...userFixture(),
-    ...override,
-  };
+export const makeUserLoginPayload = (
+  override?: Partial<ReturnType<typeof userFixture>>,
+): UserLogin => {
+  const { user } = fixtures({ user: override });
 
-  return new UserLogin(validPayload.email, validPayload.password);
+  return new UserLogin(user.email, user.password);
 };
 
-export const makeUserLogoutPayload = (override?: Partial<any>): UserLogout => {
-  const validPayload = {
-    ...authFixture(),
-    ...override,
-  };
+export const makeUserLogoutPayload = (
+  override?: Partial<ReturnType<typeof authFixture>>,
+): UserLogout => {
+  const { auth } = fixtures({ auth: override });
 
-  return new UserLogout(validPayload.refreshToken);
+  return new UserLogout(auth.refreshToken);
 };
 
 export const makeUserRegisterPayload = (
-  override?: Partial<any>,
+  override?: Partial<ReturnType<typeof userFixture>>,
 ): UserRegister => {
-  const validPayload = {
-    ...userFixture(),
-    ...override,
-  };
+  const { user } = fixtures({ user: override });
 
   return new UserRegister(
-    validPayload.username,
-    validPayload.email,
-    validPayload.phoneNumber,
-    validPayload.fullName,
-    validPayload.address,
-    validPayload.password,
+    user.username,
+    user.email,
+    user.phoneNumber,
+    user.fullName,
+    user.address,
+    user.password,
   );
 };
