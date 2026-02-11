@@ -1,13 +1,12 @@
 import { describe, it, expect } from "vitest";
 import UserLogout from "../UserLogout";
 import { USER_LOGOUT_ERROR_MESSAGE_KEY } from "../constants";
+import { authFixture } from "../../../test/fixtures/authFixture";
+import { makeUserLogoutPayload } from "./authEntityFactory";
 
 describe("UserLogout Entity", () => {
-  const validPayload = {
-    refreshToken: "refresh-token",
-  };
-
-  const user: UserLogout = new UserLogout(validPayload.refreshToken);
+  const validPayload = authFixture();
+  const user: UserLogout = makeUserLogoutPayload();
 
   describe("constructor success case", () => {
     it("should create UserLogout entity when payload is valid", () => {
@@ -17,9 +16,7 @@ describe("UserLogout Entity", () => {
 
   describe("constructor error case", () => {
     it("should throw error when refreshToken is blank", () => {
-      expect(() => {
-        new UserLogout("");
-      }).toThrowError(
+      expect(() => makeUserLogoutPayload({ refreshToken: "" })).toThrowError(
         `${USER_LOGOUT_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });

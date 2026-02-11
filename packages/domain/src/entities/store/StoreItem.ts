@@ -3,6 +3,7 @@ import { STORE_ITEM_ERROR_MESSAGE_KEY } from "./constants";
 
 class StoreItem<T> {
   private id: string;
+  private photoUrl: string | null;
   private owner: T;
   private name: string;
   private createdAt: string;
@@ -11,6 +12,7 @@ class StoreItem<T> {
 
   constructor(
     id: string,
+    photoUrl: string | null,
     owner: T,
     name: string,
     createdAt: string,
@@ -20,6 +22,7 @@ class StoreItem<T> {
     this._verifyPayload(id, name, createdAt);
 
     this.id = id;
+    this.photoUrl = photoUrl;
     this.owner = owner;
     this.name = name;
     this.createdAt = createdAt;
@@ -40,6 +43,14 @@ class StoreItem<T> {
   setId(id: string) {
     InputValidator.requireNotBlank(id, STORE_ITEM_ERROR_MESSAGE_KEY);
     this.id = id;
+  }
+
+  getPhotoUrl(): string | null {
+    return this.photoUrl;
+  }
+
+  setPhotoUrl(photoUrl: string | null) {
+    this.photoUrl = photoUrl;
   }
 
   getOwner(): T {

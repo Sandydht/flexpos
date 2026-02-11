@@ -62,6 +62,7 @@ describe("AddOutletUseCase", () => {
 
     const mockStoreItem: StoreItem<UserItem> = new StoreItem<UserItem>(
       "store-1",
+      null,
       mockUserItem,
       "Store 1",
       now,

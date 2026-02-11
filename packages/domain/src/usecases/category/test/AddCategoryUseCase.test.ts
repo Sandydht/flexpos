@@ -5,7 +5,12 @@ import CategoryItem from "../../../entities/category/CategoryItem";
 import AddCategoryUseCase from "../AddCategoryUseCase";
 
 describe("AddCategoryUseCase", () => {
-  const mockAddCategory: AddCategory = new AddCategory("Category 1", 1, true);
+  const mockAddCategory: AddCategory = new AddCategory(
+    "store-1",
+    "Category 1",
+    1,
+    true,
+  );
 
   it("should call repository addCategory and return CategoryItem entity", async () => {
     const now = new Date("2026-03-02").toISOString();

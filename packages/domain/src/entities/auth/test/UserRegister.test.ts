@@ -1,25 +1,12 @@
 import { describe, it, expect } from "vitest";
 import UserRegister from "../UserRegister";
 import { USER_REGISTER_ERROR_MESSAGE_KEY } from "../constants";
+import { makeUserRegisterPayload } from "./authEntityFactory";
+import { userFixture } from "../../../test/fixtures/userFixture";
 
 describe("UserRegister Entity", () => {
-  const validPayload = {
-    username: "validuser123",
-    email: "user@mail.com",
-    phoneNumber: "081234567890",
-    fullName: "User 123",
-    address: "Valid Address",
-    password: "password123",
-  };
-
-  const user: UserRegister = new UserRegister(
-    validPayload.username,
-    validPayload.email,
-    validPayload.phoneNumber,
-    validPayload.fullName,
-    validPayload.address,
-    validPayload.password,
-  );
+  const validPayload = userFixture();
+  const user: UserRegister = makeUserRegisterPayload();
 
   describe("constructor success case", () => {
     it("should create UserRegister entity when payload is valid", () => {
@@ -34,194 +21,89 @@ describe("UserRegister Entity", () => {
 
   describe("constructor error case", () => {
     it("should throw error when username is blank", () => {
-      expect(() => {
-        new UserRegister(
-          "",
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.password,
-        );
-      }).toThrowError(
+      expect(() => makeUserRegisterPayload({ username: "" })).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when email is blank", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          "",
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.password,
-        );
-      }).toThrowError(
+      expect(() => makeUserRegisterPayload({ email: "" })).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when phoneNumber is blank", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          validPayload.email,
-          "",
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.password,
-        );
-      }).toThrowError(
+      expect(() => makeUserRegisterPayload({ phoneNumber: "" })).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when fullName is blank", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          "",
-          validPayload.address,
-          validPayload.password,
-        );
-      }).toThrowError(
+      expect(() => makeUserRegisterPayload({ fullName: "" })).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when address is blank", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          "",
-          validPayload.password,
-        );
-      }).toThrowError(
+      expect(() => makeUserRegisterPayload({ address: "" })).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when password is blank", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          "",
-        );
-      }).toThrowError(
+      expect(() => makeUserRegisterPayload({ password: "" })).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when username exceeds character limit", () => {
-      expect(() => {
-        new UserRegister(
-          "user".repeat(51),
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.password,
-        );
-      }).toThrowError(`${USER_REGISTER_ERROR_MESSAGE_KEY}.USERNAME_LIMIT_CHAR`);
+      expect(() =>
+        makeUserRegisterPayload({ username: validPayload.username.repeat(51) }),
+      ).toThrowError(`${USER_REGISTER_ERROR_MESSAGE_KEY}.USERNAME_LIMIT_CHAR`);
     });
 
     it("should throw error when username contains restricted character", () => {
-      expect(() => {
-        new UserRegister(
-          "user@123",
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.password,
-        );
-      }).toThrowError(
+      expect(() =>
+        makeUserRegisterPayload({ username: "user@123" }),
+      ).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
       );
     });
 
     it("should throw error when email format is invalid", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          "invalid-email",
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.password,
-        );
-      }).toThrowError(
-        `${USER_REGISTER_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`,
-      );
+      expect(() =>
+        makeUserRegisterPayload({ email: "invalid-email" }),
+      ).toThrowError(`${USER_REGISTER_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`);
     });
 
     it("should throw error when phoneNumber is invalid indonesian format", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          validPayload.email,
-          "12345",
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.password,
-        );
-      }).toThrowError(
+      expect(() =>
+        makeUserRegisterPayload({ phoneNumber: "invalid-phone-number" }),
+      ).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`,
       );
     });
 
     it("should throw error when password less than 8 characters", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          "sec123",
-        );
-      }).toThrowError(
+      expect(() =>
+        makeUserRegisterPayload({ password: "sec123" }),
+      ).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS_LONG`,
       );
     });
 
     it("should throw error when password does not contain letters and numbers", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          "password",
-        );
-      }).toThrowError(
+      expect(() =>
+        makeUserRegisterPayload({ password: "password" }),
+      ).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LETTER_AND_ONE_NUMBER`,
       );
     });
 
     it("should throw error when password contain space", () => {
-      expect(() => {
-        new UserRegister(
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          "password 123",
-        );
-      }).toThrowError(
+      expect(() =>
+        makeUserRegisterPayload({ password: "password 123" }),
+      ).toThrowError(
         `${USER_REGISTER_ERROR_MESSAGE_KEY}.PASSWORD_MUST_NOT_CONTAIN_SPACES`,
       );
     });

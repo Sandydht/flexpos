@@ -1,37 +1,12 @@
 import { describe, expect, it } from "vitest";
 import UserItem from "../UserItem";
-import { UserRole } from "../types";
 import { USER_ITEM_ERROR_MESSAGE_KEY } from "../constants";
+import { makeUserItemPayload } from "./userEntityFactory";
+import { userFixture } from "../../../test/fixtures/userFixture";
 
 describe("UserItem entity", () => {
-  const now = new Date("2026-03-02").toISOString();
-  const validPayload = {
-    id: "user-1",
-    photoUrl: null,
-    username: "validuser123",
-    email: "user@mail.com",
-    phoneNumber: "081234567890",
-    fullName: "User 123",
-    address: "Valid Address",
-    roles: ["OWNER"],
-    createdAt: now,
-    updatedAt: null,
-    deletedAt: null,
-  };
-
-  const user: UserItem = new UserItem(
-    validPayload.id,
-    validPayload.photoUrl,
-    validPayload.username,
-    validPayload.email,
-    validPayload.phoneNumber,
-    validPayload.fullName,
-    validPayload.address,
-    validPayload.roles as UserRole[],
-    validPayload.createdAt,
-    validPayload.updatedAt,
-    validPayload.deletedAt,
-  );
+  const validPayload = userFixture();
+  const user: UserItem = makeUserItemPayload();
 
   describe("constructor success case", () => {
     it("should create UserItem entity when payload is valid", () => {
@@ -42,7 +17,7 @@ describe("UserItem entity", () => {
       expect(user.getPhoneNumber()).toBe(validPayload.phoneNumber);
       expect(user.getFullName()).toBe(validPayload.fullName);
       expect(user.getAddress()).toBe(validPayload.address);
-      expect(user.getRoles()).toBe(validPayload.roles);
+      expect(user.getRoles()).toStrictEqual(validPayload.roles);
       expect(user.getCreatedAt()).toBe(validPayload.createdAt);
       expect(user.getUpdatedAt()).toBe(validPayload.updatedAt);
       expect(user.getDeletedAt()).toBe(validPayload.deletedAt);
@@ -51,237 +26,75 @@ describe("UserItem entity", () => {
 
   describe("constructor error case", () => {
     it("should throw error when id is blank", () => {
-      expect(() => {
-        new UserItem(
-          "",
-          validPayload.photoUrl,
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ id: "" })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when username is blank", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          "",
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ username: "" })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when email is blank", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username,
-          "",
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ email: "" })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when phoneNumber is blank", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username,
-          validPayload.email,
-          "",
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ phoneNumber: "" })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when fullName is blank", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          "",
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ fullName: "" })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when address is blank", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          "",
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ address: "" })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when roles is blank", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          [],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ roles: [] })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when createdAt is blank", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          "",
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ createdAt: "" })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when username exceeds character limit", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username.repeat(51),
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(`${USER_ITEM_ERROR_MESSAGE_KEY}.USERNAME_LIMIT_CHAR`);
+      expect(() =>
+        makeUserItemPayload({ username: validPayload.username.repeat(51) }),
+      ).toThrowError(`${USER_ITEM_ERROR_MESSAGE_KEY}.USERNAME_LIMIT_CHAR`);
     });
 
     it("should throw error when username contains restricted character", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          "user@123",
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeUserItemPayload({ username: "user@123" })).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.USERNAME_CONTAIN_RESTRICTED_CHARACTER`,
       );
     });
 
     it("should throw error when email format is invalid", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username,
-          "invalid-email",
-          validPayload.phoneNumber,
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(`${USER_ITEM_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`);
+      expect(() =>
+        makeUserItemPayload({ email: "invalid-email" }),
+      ).toThrowError(`${USER_ITEM_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`);
     });
 
     it("should throw error when phoneNumber is invalid indonesian format", () => {
-      expect(() => {
-        new UserItem(
-          validPayload.id,
-          validPayload.photoUrl,
-          validPayload.username,
-          validPayload.email,
-          "12345",
-          validPayload.fullName,
-          validPayload.address,
-          validPayload.roles as UserRole[],
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() =>
+        makeUserItemPayload({ phoneNumber: "invalid-phone-number" }),
+      ).toThrowError(
         `${USER_ITEM_ERROR_MESSAGE_KEY}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`,
       );
     });
@@ -327,21 +140,21 @@ describe("UserItem entity", () => {
     });
 
     it("should update createdAt when valid", () => {
-      user.setCreatedAt(now);
-      expect(user.getCreatedAt()).toBe(now);
+      user.setCreatedAt(validPayload.createdAt);
+      expect(user.getCreatedAt()).toBe(validPayload.createdAt);
     });
 
     it("should update updatedAt when valid", () => {
-      user.setUpdatedAt(now);
-      expect(user.getUpdatedAt()).toBe(now);
+      user.setUpdatedAt(validPayload.updatedAt);
+      expect(user.getUpdatedAt()).toBe(validPayload.updatedAt);
 
       user.setUpdatedAt(null);
       expect(user.getUpdatedAt()).toBeNull();
     });
 
     it("should update deletedAt when valid", () => {
-      user.setDeletedAt(now);
-      expect(user.getDeletedAt()).toBe(now);
+      user.setDeletedAt(validPayload.deletedAt);
+      expect(user.getDeletedAt()).toBe(validPayload.deletedAt);
 
       user.setDeletedAt(null);
       expect(user.getDeletedAt()).toBeNull();

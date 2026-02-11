@@ -1,22 +1,38 @@
 import InputValidator from "../utils/InputValidator";
+import { ADD_CATEGORY_ERROR_MESSAGE_KEY } from "./constants";
 
 class AddCategory {
-  private readonly errorMessageKey: string = "ADD_CATEGORY";
-
+  private storeId: string;
   private name: string;
   private displayOrder: number;
   private isActive: boolean;
 
-  constructor(name: string, displayOrder: number, isActive: boolean) {
-    this._verifyPayload(name);
+  constructor(
+    storeId: string,
+    name: string,
+    displayOrder: number,
+    isActive: boolean,
+  ) {
+    this._verifyPayload(storeId, name);
 
+    this.storeId = storeId;
     this.name = name;
     this.displayOrder = displayOrder;
     this.isActive = isActive;
   }
 
-  private _verifyPayload(name: string) {
-    InputValidator.requireNotBlank(name, this.errorMessageKey);
+  private _verifyPayload(storeId: string, name: string) {
+    InputValidator.requireNotBlank(storeId, ADD_CATEGORY_ERROR_MESSAGE_KEY);
+    InputValidator.requireNotBlank(name, ADD_CATEGORY_ERROR_MESSAGE_KEY);
+  }
+
+  getStoreId(): string {
+    return this.storeId;
+  }
+
+  setStoreId(storeId: string) {
+    InputValidator.requireNotBlank(storeId, ADD_CATEGORY_ERROR_MESSAGE_KEY);
+    this.storeId = storeId;
   }
 
   getName(): string {
@@ -24,7 +40,7 @@ class AddCategory {
   }
 
   setName(name: string) {
-    InputValidator.requireNotBlank(name, this.errorMessageKey);
+    InputValidator.requireNotBlank(name, ADD_CATEGORY_ERROR_MESSAGE_KEY);
     this.name = name;
   }
 

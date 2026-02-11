@@ -6,6 +6,7 @@ describe("StoreItem entity", () => {
   const now = new Date("2026-03-02").toISOString();
   const validPayload = {
     id: "store-1",
+    photoUrl: null,
     owner: "user-1",
     name: "Store 1",
     createdAt: now,
@@ -15,6 +16,7 @@ describe("StoreItem entity", () => {
 
   const store: StoreItem<string> = new StoreItem<string>(
     validPayload.id,
+    validPayload.photoUrl,
     validPayload.owner,
     validPayload.name,
     validPayload.createdAt,
@@ -25,6 +27,7 @@ describe("StoreItem entity", () => {
   describe("constructor success case", () => {
     it("should create StoreItem entity when payload is valid", () => {
       expect(store.getId()).toBe(validPayload.id);
+      expect(store.getPhotoUrl()).toBe(validPayload.photoUrl);
       expect(store.getOwner()).toBe(validPayload.owner);
       expect(store.getName()).toBe(validPayload.name);
       expect(store.getCreatedAt()).toBe(validPayload.createdAt);
@@ -38,6 +41,7 @@ describe("StoreItem entity", () => {
       expect(() => {
         new StoreItem<string>(
           "",
+          validPayload.photoUrl,
           validPayload.owner,
           validPayload.name,
           validPayload.createdAt,
@@ -53,6 +57,7 @@ describe("StoreItem entity", () => {
       expect(() => {
         new StoreItem<string>(
           validPayload.id,
+          validPayload.photoUrl,
           validPayload.owner,
           "",
           validPayload.createdAt,
@@ -68,6 +73,7 @@ describe("StoreItem entity", () => {
       expect(() => {
         new StoreItem<string>(
           validPayload.id,
+          validPayload.photoUrl,
           validPayload.owner,
           validPayload.name,
           "",
@@ -84,6 +90,11 @@ describe("StoreItem entity", () => {
     it("should update id when valid", () => {
       store.setId(validPayload.id);
       expect(store.getId()).toBe(validPayload.id);
+    });
+
+    it("should update photoUrl when valid", () => {
+      store.setPhotoUrl(validPayload.photoUrl);
+      expect(store.getPhotoUrl()).toBe(validPayload.photoUrl);
     });
 
     it("should update name when valid", () => {

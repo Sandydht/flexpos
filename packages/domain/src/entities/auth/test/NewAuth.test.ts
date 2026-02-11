@@ -1,17 +1,12 @@
 import { describe, it, expect } from "vitest";
 import NewAuth from "../NewAuth";
 import { NEW_AUTH_ERROR_MESSAGE_KEY } from "../constants";
+import { authFixture } from "../../../test/fixtures/authFixture";
+import { makeNewAuthPayload } from "./authEntityFactory";
 
 describe("NewAuth Entity", () => {
-  const validPayload = {
-    accessToken: "access-token",
-    refreshToken: "refresh-token",
-  };
-
-  const auth: NewAuth = new NewAuth(
-    validPayload.accessToken,
-    validPayload.refreshToken,
-  );
+  const validPayload = authFixture();
+  const auth: NewAuth = makeNewAuthPayload();
 
   describe("constructor success case", () => {
     it("should create NewAuth entity when payload is valid", () => {
@@ -22,17 +17,13 @@ describe("NewAuth Entity", () => {
 
   describe("constructor error case", () => {
     it("should throw error when accessToken is blank", () => {
-      expect(() => {
-        new NewAuth("", validPayload.refreshToken);
-      }).toThrowError(
+      expect(() => makeNewAuthPayload({ accessToken: "" })).toThrowError(
         `${NEW_AUTH_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when refreshToken is blank", () => {
-      expect(() => {
-        new NewAuth(validPayload.accessToken, "");
-      }).toThrowError(
+      expect(() => makeNewAuthPayload({ refreshToken: "" })).toThrowError(
         `${NEW_AUTH_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
