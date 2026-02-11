@@ -3,43 +3,39 @@ import LoginAccountUseCase from "../LoginAccountUseCase";
 import UserLogin from "../../../entities/auth/UserLogin";
 import NewAuth from "../../../entities/auth/NewAuth";
 import AuthRepository from "../../../repositories/AuthRepository";
+import {
+  makeNewAuthPayload,
+  makeUserLoginPayload,
+} from "../../../entities/auth/test/authEntityFactory";
+import { mockAuthRepository } from "./__mocks__/mockAuthRepository";
+import { mockError } from "../../../test/helpers/mockError";
 
 describe("LoginAccountUseCase", () => {
-  const mockUserLogin: UserLogin = new UserLogin(
-    "example@email.com",
-    "password123",
-  );
+  const mockUserLogin: UserLogin = makeUserLoginPayload();
+  let repository: Partial<AuthRepository> = mockAuthRepository();
 
   it("should call repository loginAccount and return NewAuth entity", async () => {
-    const mockNewAuth: NewAuth = new NewAuth("access-token", "refresh-token");
+    const mockNewAuth: NewAuth = makeNewAuthPayload();
 
-    const mockAuthRepository: Partial<AuthRepository> = {
-      loginAccount: vi.fn().mockResolvedValue(mockNewAuth),
-    };
+    repository.loginAccount = vi.fn().mockResolvedValue(mockNewAuth);
 
     const useCase: LoginAccountUseCase = new LoginAccountUseCase(
-      mockAuthRepository as AuthRepository,
+      repository as AuthRepository,
     );
 
     const result = await useCase.execute(mockUserLogin);
 
-    expect(mockAuthRepository.loginAccount).toHaveBeenCalledWith(mockUserLogin);
+    expect(repository.loginAccount).toHaveBeenCalledWith(mockUserLogin);
     expect(result).toStrictEqual(mockNewAuth);
   });
 
   it("should throw error when repository throws error", async () => {
-    const mockError: Error = new Error("SERVER_ERROR");
-
-    const mockAuthRepository: Partial<AuthRepository> = {
-      loginAccount: vi.fn().mockRejectedValue(mockError),
-    };
+    repository.loginAccount = vi.fn().mockRejectedValue(mockError());
 
     const useCase: LoginAccountUseCase = new LoginAccountUseCase(
-      mockAuthRepository as AuthRepository,
+      repository as AuthRepository,
     );
 
-    await expect(useCase.execute(mockUserLogin)).rejects.toThrow(
-      mockError.message,
-    );
+    await expect(useCase.execute(mockUserLogin)).rejects.toThrow(mockError());
   });
 });

@@ -2,49 +2,36 @@ import { describe, it, expect, vi } from "vitest";
 
 import GetUserProfileUseCase from "../GetUserProfileUseCase";
 import UserItem from "../../../entities/user/UserItem";
+import { makeUserItemPayload } from "../../../entities/user/test/userEntityFactory";
+import { mockUserRepository } from "./__mocks__/mockUserRepository";
+import { mockError } from "../../../test/helpers/mockError";
 import UserRepository from "../../../repositories/UserRepository";
 
 describe("GetUserProfileUseCase", () => {
-  it("should call repository getUserProfile and return UserItem entity", async () => {
-    const now = new Date("2026-03-02").toISOString();
-    const mockUserItem = new UserItem(
-      "user-1",
-      null,
-      "user",
-      "example@email.com",
-      "081234567890",
-      "User",
-      "Address",
-      ["OWNER"],
-      now,
-      null,
-      null,
-    );
+  const repository: Partial<UserRepository> = mockUserRepository();
 
-    const mockUserRepository: UserRepository = {
-      getUserProfile: vi.fn().mockResolvedValue(mockUserItem),
-    };
+  it("should call repository getUserProfile and return UserItem entity", async () => {
+    const mockUserItem: UserItem = makeUserItemPayload();
+
+    repository.getUserProfile = vi.fn().mockResolvedValue(mockUserItem);
 
     const useCase: GetUserProfileUseCase = new GetUserProfileUseCase(
-      mockUserRepository,
+      repository as UserRepository,
     );
 
     const result = await useCase.execute();
 
-    expect(mockUserRepository.getUserProfile).toHaveBeenCalledOnce();
+    expect(repository.getUserProfile).toHaveBeenCalledOnce();
     expect(result).toStrictEqual(mockUserItem);
   });
 
   it("should throw error when repository throws error", async () => {
-    const mockError: Error = new Error("SERVER_ERROR");
-    const mockUserRepository: UserRepository = {
-      getUserProfile: vi.fn().mockRejectedValue(mockError),
-    };
+    repository.getUserProfile = vi.fn().mockRejectedValue(mockError());
 
     const useCase: GetUserProfileUseCase = new GetUserProfileUseCase(
-      mockUserRepository,
+      repository as UserRepository,
     );
 
-    await expect(useCase.execute()).rejects.toThrow(mockError.message);
+    await expect(useCase.execute()).rejects.toThrow(mockError());
   });
 });

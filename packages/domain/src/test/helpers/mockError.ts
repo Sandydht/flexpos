@@ -1,3 +1,2 @@
-export const mockError = (message = "SERVER_ERROR") => {
-  return new Error(message);
-};
+export const mockError = (message = "SERVER_ERROR"): Error =>
+  new Error(message);

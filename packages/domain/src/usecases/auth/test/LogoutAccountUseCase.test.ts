@@ -3,41 +3,32 @@ import { describe, it, expect, vi } from "vitest";
 import LogoutAccountUseCase from "../LogoutAccountUseCase";
 import UserLogout from "../../../entities/auth/UserLogout";
 import AuthRepository from "../../../repositories/AuthRepository";
+import { makeUserLogoutPayload } from "../../../entities/auth/test/authEntityFactory";
+import { mockAuthRepository } from "./__mocks__/mockAuthRepository";
+import { mockError } from "../../../test/helpers/mockError";
 
 describe("LogoutAccountUseCase", () => {
-  const mockUserLogout: UserLogout = new UserLogout("refresh-token");
+  const mockUserLogout: UserLogout = makeUserLogoutPayload();
+  const repository: Partial<AuthRepository> = mockAuthRepository();
 
   it("should call repository logoutAccount and return success message", async () => {
     const successMessage: string = "See you!";
-    const mockAuthRepository: Partial<AuthRepository> = {
-      logoutAccount: vi.fn().mockResolvedValue(successMessage),
-    };
 
-    const useCase = new LogoutAccountUseCase(
-      mockAuthRepository as AuthRepository,
-    );
+    repository.logoutAccount = vi.fn().mockResolvedValue(successMessage);
+
+    const useCase = new LogoutAccountUseCase(repository as AuthRepository);
 
     const result = await useCase.execute(mockUserLogout);
 
-    expect(mockAuthRepository.logoutAccount).toHaveBeenCalledWith(
-      mockUserLogout,
-    );
+    expect(repository.logoutAccount).toHaveBeenCalledWith(mockUserLogout);
     expect(result).toStrictEqual(successMessage);
   });
 
   it("should throw error when repository throws error", async () => {
-    const mockError: Error = new Error("SERVER_ERROR");
+    repository.logoutAccount = vi.fn().mockRejectedValue(mockError());
 
-    const mockAuthRepository: Partial<AuthRepository> = {
-      logoutAccount: vi.fn().mockRejectedValue(mockError),
-    };
+    const useCase = new LogoutAccountUseCase(repository as AuthRepository);
 
-    const useCase = new LogoutAccountUseCase(
-      mockAuthRepository as AuthRepository,
-    );
-
-    await expect(useCase.execute(mockUserLogout)).rejects.toThrow(
-      mockError.message,
-    );
+    await expect(useCase.execute(mockUserLogout)).rejects.toThrow(mockError());
   });
 });
