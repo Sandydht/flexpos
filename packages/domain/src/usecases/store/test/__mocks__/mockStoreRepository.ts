@@ -1,10 +1,12 @@
-import { vi } from "vitest";
+import { Mocked } from "vitest";
 import StoreRepository from "../../../../repositories/StoreRepository";
+import { createMockRepository } from "../../../../test/helpers/testRepositoryFactory";
 
-export const mockStoreRepository = (): Partial<StoreRepository> => ({
-  addStore: vi.fn(),
-  getStoreDetail: vi.fn(),
-  getStoreList: vi.fn(),
-  updateStore: vi.fn(),
-  deleteStore: vi.fn(),
-});
+export const makeMockStoreRepository = (): Mocked<StoreRepository> =>
+  createMockRepository<StoreRepository>([
+    "addStore",
+    "getStoreDetail",
+    "getStoreList",
+    "updateStore",
+    "deleteStore",
+  ]) as any;

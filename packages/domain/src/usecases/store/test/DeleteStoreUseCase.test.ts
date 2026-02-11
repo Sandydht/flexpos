@@ -1,41 +1,43 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, Mocked, vi } from "vitest";
 import { StoreItem, UserItem } from "../../../entities/entities";
 import StoreRepository from "../../../repositories/StoreRepository";
 import DeleteStoreUseCase from "../DeleteStoreUseCase";
-import { mockStoreRepository } from "./__mocks__/mockStoreRepository";
 import { makeStoreItemPayload } from "../../../entities/store/test/storeEntityFactory";
 import { mockError } from "../../../test/helpers/mockError";
+import { makeMockStoreRepository } from "./__mocks__/mockStoreRepository";
 
 describe("DeleteStoreUseCase", () => {
   const mockStoreId: string = "store-1";
-  let repository: Partial<StoreRepository>;
+  let mockStoreRepository: Mocked<StoreRepository>;
 
   beforeEach(() => {
-    repository = mockStoreRepository();
+    mockStoreRepository = makeMockStoreRepository();
   });
 
   it("should call repository deleteStore and return StoreItem entity", async () => {
     const mockStoreItem: StoreItem<UserItem> = makeStoreItemPayload();
 
-    repository.deleteStore = vi.fn().mockResolvedValue(mockStoreItem);
+    mockStoreRepository.deleteStore.mockResolvedValue(mockStoreItem);
 
     const useCase: DeleteStoreUseCase = new DeleteStoreUseCase(
-      repository as StoreRepository,
+      mockStoreRepository as StoreRepository,
     );
 
     const result = await useCase.execute(mockStoreId);
 
-    expect(repository.deleteStore).toHaveBeenCalledWith(mockStoreId);
+    expect(mockStoreRepository.deleteStore).toHaveBeenCalledWith(mockStoreId);
     expect(result).toStrictEqual(mockStoreItem);
   });
 
   it("should throw error when repository throws error", async () => {
-    repository.deleteStore = vi.fn().mockRejectedValue(mockError());
+    const error: Error = mockError();
+
+    mockStoreRepository.deleteStore.mockRejectedValue(error);
 
     const useCase: DeleteStoreUseCase = new DeleteStoreUseCase(
-      repository as StoreRepository,
+      mockStoreRepository as StoreRepository,
     );
 
-    await expect(useCase.execute(mockStoreId)).rejects.toThrow(mockError());
+    await expect(useCase.execute(mockStoreId)).rejects.toThrow(error);
   });
 });

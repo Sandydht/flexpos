@@ -1,42 +1,27 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, Mocked, vi } from "vitest";
 import { PaginationQuery } from "../../../entities/utils/PaginationQuery";
 import { StoreItem, UserItem } from "../../../entities/entities";
 import { PaginationMeta } from "../../../entities/utils/PaginationMeta";
 import StoreRepository from "../../../repositories/StoreRepository";
 import { PaginatedResult } from "../../../entities/utils/PaginatedResult";
 import GetStoreListUseCase from "../GetStoreListUseCase";
+import { makeMockStoreRepository } from "./__mocks__/mockStoreRepository";
+import { makeStoreItemPayload } from "../../../entities/store/test/storeEntityFactory";
+import { mockError } from "../../../test/helpers/mockError";
 
 describe("GetStoreListUseCase", () => {
   const mockPaginationQuery: PaginationQuery = {
     page: 1,
     size: 10,
   };
+  let mockStoreRepository: Mocked<StoreRepository>;
+
+  beforeEach(() => {
+    mockStoreRepository = makeMockStoreRepository();
+  });
 
   it("should call repository and return StoreItem entity", async () => {
-    const now = new Date("2026-03-02").toISOString();
-    const mockUserItem = new UserItem(
-      "user-1",
-      null,
-      "user",
-      "example@email.com",
-      "081234567890",
-      "User",
-      "Address",
-      ["OWNER"],
-      now,
-      null,
-      null,
-    );
-
-    const mockStoreItem: StoreItem<UserItem> = new StoreItem<UserItem>(
-      "store-1",
-      null,
-      mockUserItem,
-      "Store 1",
-      now,
-      null,
-      null,
-    );
+    const mockStoreItem: StoreItem<UserItem> = makeStoreItemPayload();
 
     const mockPaginationMeta: PaginationMeta = {
       page: mockPaginationQuery.page || 1,
@@ -53,9 +38,7 @@ describe("GetStoreListUseCase", () => {
       query: mockPaginationQuery,
     };
 
-    const mockStoreRepository: Partial<StoreRepository> = {
-      getStoreList: vi.fn().mockResolvedValue(mockPaginatedResult),
-    };
+    mockStoreRepository.getStoreList.mockResolvedValue(mockPaginatedResult);
 
     const useCase: GetStoreListUseCase = new GetStoreListUseCase(
       mockStoreRepository as StoreRepository,
@@ -70,18 +53,14 @@ describe("GetStoreListUseCase", () => {
   });
 
   it("should throw error when repository throws error", async () => {
-    const mockError: Error = new Error("SERVER_ERROR");
+    const error: Error = mockError();
 
-    const mockStoreRepository: Partial<StoreRepository> = {
-      getStoreList: vi.fn().mockRejectedValue(mockError),
-    };
+    mockStoreRepository.getStoreList.mockRejectedValue(error);
 
     const useCase: GetStoreListUseCase = new GetStoreListUseCase(
       mockStoreRepository as StoreRepository,
     );
 
-    await expect(useCase.execute(mockPaginationQuery)).rejects.toThrow(
-      mockError.message,
-    );
+    await expect(useCase.execute(mockPaginationQuery)).rejects.toThrow(error);
   });
 });
