@@ -1,6 +1,7 @@
 import { StoreItem, UpdateOutlet, UserItem } from "../entities/entities";
 import AddOutlet from "../entities/outlet/AddOutlet";
 import OutletItem from "../entities/outlet/OutletItem";
+import { PaginatedResult } from "../entities/utils/PaginatedResult";
 import { PaginationQuery } from "../entities/utils/PaginationQuery";
 
 export default interface OutletRepository {
@@ -8,7 +9,7 @@ export default interface OutletRepository {
   getOutletDetail(_id: string): Promise<OutletItem<StoreItem<UserItem>>>;
   getOutletList(
     _params: PaginationQuery,
-  ): Promise<OutletItem<StoreItem<UserItem>>>;
+  ): Promise<PaginatedResult<OutletItem<StoreItem<UserItem>>>>;
   updateOutlet(
     _id: string,
     _payload: UpdateOutlet,

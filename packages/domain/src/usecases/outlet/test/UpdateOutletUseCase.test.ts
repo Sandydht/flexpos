@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, Mocked, vi } from "vitest";
 import OpeningHours from "../../../entities/outlet/OpeningHours";
 import {
   OutletItem,
@@ -9,92 +9,28 @@ import {
 import { UserRole } from "../../../entities/user/types";
 import OutletRepository from "../../../repositories/OutletRepository";
 import UpdateOutletUseCase from "../UpdateOutletUseCase";
+import {
+  makeOutletItemPayload,
+  makeUpdateOutletPayload,
+} from "../../../entities/outlet/test/outletEntityFactory";
+import { makeMockOutletRepository } from "./__mocks__/mockOutletRepository";
+import { mockError } from "../../../test/helpers/mockError";
 
 describe("UpdateOutletUseCase", () => {
   const mockOutletId: string = "outlet-1";
-  const validPayload = {
-    storeId: "store-1",
-    name: "Outlet 1",
-    code: "OUTLET-01",
-    address: "Address",
-    city: "South Jakarta",
-    province: "DKI Jakarta",
-    postalCode: "12345",
-    country: "Indonesia",
-    email: "outlet1@email.com",
-    phoneNumber: "081234567890",
-    openingHours: {
-      monday: { open: "08:00", close: "22:00", isClosed: false },
-      tuesday: { open: "08:00", close: "22:00", isClosed: false },
-    } as unknown as OpeningHours,
-    isActive: true,
-  };
+  let mockUpdateOutlet: UpdateOutlet;
+  let mockOutletRepository: Mocked<OutletRepository>;
 
-  const mockUpdateOutlet: UpdateOutlet = new UpdateOutlet(
-    validPayload.storeId,
-    validPayload.name,
-    validPayload.code,
-    validPayload.address,
-    validPayload.city,
-    validPayload.province,
-    validPayload.postalCode,
-    validPayload.country,
-    validPayload.email,
-    validPayload.phoneNumber,
-    validPayload.openingHours,
-    validPayload.isActive,
-  );
+  beforeEach(() => {
+    mockUpdateOutlet = makeUpdateOutletPayload();
+    mockOutletRepository = makeMockOutletRepository();
+  });
 
   it("should call reporitory updateOutlet and return OutletItem entity", async () => {
-    const now = new Date("2026-03-02").toISOString();
-    const mockUserItem: UserItem = new UserItem(
-      "user-1",
-      null,
-      "validuser123",
-      "user@mail.com",
-      "081234567890",
-      "User 123",
-      "Valid Address",
-      ["OWNER"] as unknown as UserRole[],
-      now,
-      null,
-      null,
-    );
+    const mockOutletItem: OutletItem<StoreItem<UserItem>> =
+      makeOutletItemPayload();
 
-    const mockStoreItem: StoreItem<UserItem> = new StoreItem<UserItem>(
-      "store-1",
-      null,
-      mockUserItem,
-      "Store 1",
-      now,
-      null,
-      null,
-    );
-
-    const mockOutletItem: OutletItem<StoreItem<UserItem>> = new OutletItem<
-      StoreItem<UserItem>
-    >(
-      "store-1",
-      mockStoreItem,
-      validPayload.name,
-      validPayload.code,
-      validPayload.address,
-      validPayload.city,
-      validPayload.province,
-      validPayload.postalCode,
-      validPayload.country,
-      validPayload.email,
-      validPayload.phoneNumber,
-      validPayload.openingHours,
-      validPayload.isActive,
-      now,
-      null,
-      null,
-    );
-
-    const mockOutletRepository: Partial<OutletRepository> = {
-      updateOutlet: vi.fn().mockResolvedValue(mockOutletItem),
-    };
+    mockOutletRepository.updateOutlet.mockResolvedValue(mockOutletItem);
 
     const useCase: UpdateOutletUseCase = new UpdateOutletUseCase(
       mockOutletRepository as OutletRepository,
@@ -110,11 +46,9 @@ describe("UpdateOutletUseCase", () => {
   });
 
   it("should throw error when repository throws error", async () => {
-    const mockError: Error = new Error("SERVER_ERROR");
+    const error: Error = mockError();
 
-    const mockOutletRepository: Partial<OutletRepository> = {
-      updateOutlet: vi.fn().mockRejectedValue(mockError),
-    };
+    mockOutletRepository.updateOutlet.mockRejectedValue(error);
 
     const useCase: UpdateOutletUseCase = new UpdateOutletUseCase(
       mockOutletRepository as OutletRepository,
@@ -122,6 +56,6 @@ describe("UpdateOutletUseCase", () => {
 
     await expect(
       useCase.execute(mockOutletId, mockUpdateOutlet),
-    ).rejects.toThrow(mockError.message);
+    ).rejects.toThrow(error);
   });
 });

@@ -1,392 +1,118 @@
-import { describe, expect, it } from "vitest";
-import OutletItem from "../OutletItem";
-import OpeningHours from "../OpeningHours";
+import { beforeEach, describe, expect, it } from "vitest";
+import type OutletItem from "../OutletItem";
 import { OUTLET_ITEM_ERROR_MESSAGE_KEY } from "../constants";
+import { fixtures } from "../../../test/fixtures";
+import { makeOutletItemPayload } from "./outletEntityFactory";
+import { StoreItem, UserItem } from "../../entities";
 
 describe("OutletItem entity", () => {
-  const now = new Date("2026-03-02").toISOString();
-  const validPayload = {
-    id: "store-1",
-    store: "store-1",
-    name: "Outlet 1",
-    code: "OUTLET-01",
-    address: "Address",
-    city: "South Jakarta",
-    province: "DKI Jakarta",
-    postalCode: "12345",
-    country: "Indonesia",
-    email: "outlet1@email.com",
-    phoneNumber: "081234567890",
-    openingHours: {
-      monday: { open: "08:00", close: "22:00", isClosed: false },
-      tuesday: { open: "08:00", close: "22:00", isClosed: false },
-    } as unknown as OpeningHours,
-    isActive: true,
-    createdAt: now,
-    updatedAt: null,
-    deletedAt: null,
-  };
+  const { outlet: validPayloadOutlet } = fixtures();
+  let outlet: OutletItem<StoreItem<UserItem>>;
 
-  const outlet: OutletItem<string> = new OutletItem<string>(
-    validPayload.id,
-    validPayload.store,
-    validPayload.name,
-    validPayload.code,
-    validPayload.address,
-    validPayload.city,
-    validPayload.province,
-    validPayload.postalCode,
-    validPayload.country,
-    validPayload.email,
-    validPayload.phoneNumber,
-    validPayload.openingHours,
-    validPayload.isActive,
-    validPayload.createdAt,
-    validPayload.updatedAt,
-    validPayload.deletedAt,
-  );
+  beforeEach(() => {
+    outlet = makeOutletItemPayload();
+  });
 
   describe("constructor success case", () => {
     it("should create OutletItem entity when payload is valid", () => {
-      expect(outlet.getId()).toBe(validPayload.id);
-      expect(outlet.getStore()).toBe(validPayload.store);
-      expect(outlet.getName()).toBe(validPayload.name);
-      expect(outlet.getCode()).toBe(validPayload.code);
-      expect(outlet.getAddress()).toBe(validPayload.address);
-      expect(outlet.getCity()).toBe(validPayload.city);
-      expect(outlet.getProvince()).toBe(validPayload.province);
-      expect(outlet.getPostalCode()).toBe(validPayload.postalCode);
-      expect(outlet.getCountry()).toBe(validPayload.country);
-      expect(outlet.getEmail()).toBe(validPayload.email);
-      expect(outlet.getPhoneNumber()).toBe(validPayload.phoneNumber);
-      expect(outlet.getOpeningHours()).toBe(validPayload.openingHours);
-      expect(outlet.getIsActive()).toBe(validPayload.isActive);
-      expect(outlet.getCreatedAt()).toBe(validPayload.createdAt);
-      expect(outlet.getUpdatedAt()).toBe(validPayload.updatedAt);
-      expect(outlet.getDeletedAt()).toBe(validPayload.deletedAt);
+      expect(outlet.getId()).toBe(validPayloadOutlet.id);
+      expect(outlet.getStore().getId()).toBe(validPayloadOutlet.store.id);
+      expect(outlet.getName()).toBe(validPayloadOutlet.name);
+      expect(outlet.getCode()).toBe(validPayloadOutlet.code);
+      expect(outlet.getAddress()).toBe(validPayloadOutlet.address);
+      expect(outlet.getCity()).toBe(validPayloadOutlet.city);
+      expect(outlet.getProvince()).toBe(validPayloadOutlet.province);
+      expect(outlet.getPostalCode()).toBe(validPayloadOutlet.postalCode);
+      expect(outlet.getCountry()).toBe(validPayloadOutlet.country);
+      expect(outlet.getEmail()).toBe(validPayloadOutlet.email);
+      expect(outlet.getPhoneNumber()).toBe(validPayloadOutlet.phoneNumber);
+      expect(outlet.getOpeningHours().monday).toEqual(
+        validPayloadOutlet.openingHours.monday,
+      );
+      expect(outlet.getIsActive()).toBe(validPayloadOutlet.isActive);
+      expect(outlet.getCreatedAt()).toBe(validPayloadOutlet.createdAt);
+      expect(outlet.getUpdatedAt()).toBe(validPayloadOutlet.updatedAt);
+      expect(outlet.getDeletedAt()).toBe(validPayloadOutlet.deletedAt);
     });
   });
 
   describe("constructor error case", () => {
     it("should throw error when id is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          "",
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ id: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when name is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          "",
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ name: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when code is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          "",
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ code: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when address is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          "",
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ address: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when city is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          "",
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ city: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when province is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          "",
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ province: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when postalCode is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          "",
-          validPayload.country,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ postalCode: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when country is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          "",
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ country: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when email is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          "",
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ email: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when phoneNumber is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          "",
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ phoneNumber: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when createdAt is blank", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          "",
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() => makeOutletItemPayload({ createdAt: "" })).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when email format is invalid", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          "invalid-email",
-          validPayload.phoneNumber,
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(`${OUTLET_ITEM_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`);
+      expect(() =>
+        makeOutletItemPayload({ email: "invalid-email" }),
+      ).toThrowError(`${OUTLET_ITEM_ERROR_MESSAGE_KEY}.INVALID_EMAIL_FORMAT`);
     });
 
     it("should throw error when phoneNumber is invalid indonesian format", () => {
-      expect(() => {
-        new OutletItem<string>(
-          validPayload.id,
-          validPayload.store,
-          validPayload.name,
-          validPayload.code,
-          validPayload.address,
-          validPayload.city,
-          validPayload.province,
-          validPayload.postalCode,
-          validPayload.country,
-          validPayload.email,
-          "invalid-phone-number",
-          validPayload.openingHours,
-          validPayload.isActive,
-          validPayload.createdAt,
-          validPayload.updatedAt,
-          validPayload.deletedAt,
-        );
-      }).toThrowError(
+      expect(() =>
+        makeOutletItemPayload({ phoneNumber: "invalid-phone-number" }),
+      ).toThrowError(
         `${OUTLET_ITEM_ERROR_MESSAGE_KEY}.INVALID_INDONESIAN_PHONE_NUMBER_FORMAT`,
       );
     });
@@ -394,83 +120,85 @@ describe("OutletItem entity", () => {
 
   describe("setter success case", () => {
     it("should update id when valid", () => {
-      outlet.setId(validPayload.id);
-      expect(outlet.getId()).toBe(validPayload.id);
+      outlet.setId(validPayloadOutlet.id);
+      expect(outlet.getId()).toBe(validPayloadOutlet.id);
     });
 
     it("should update store when valid", () => {
-      outlet.setStore(validPayload.store);
-      expect(outlet.getStore()).toBe(validPayload.store);
+      outlet.setStore(
+        validPayloadOutlet.store as unknown as StoreItem<UserItem>,
+      );
+      expect(outlet.getStore()).toBe(validPayloadOutlet.store);
     });
 
     it("should update name when valid", () => {
-      outlet.setName(validPayload.name);
-      expect(outlet.getName()).toBe(validPayload.name);
+      outlet.setName(validPayloadOutlet.name);
+      expect(outlet.getName()).toBe(validPayloadOutlet.name);
     });
 
     it("should update code when valid", () => {
-      outlet.setCode(validPayload.code);
-      expect(outlet.getCode()).toBe(validPayload.code);
+      outlet.setCode(validPayloadOutlet.code);
+      expect(outlet.getCode()).toBe(validPayloadOutlet.code);
     });
 
     it("should update address when valid", () => {
-      outlet.setAddress(validPayload.address);
-      expect(outlet.getAddress()).toBe(validPayload.address);
+      outlet.setAddress(validPayloadOutlet.address);
+      expect(outlet.getAddress()).toBe(validPayloadOutlet.address);
     });
 
     it("should update city when valid", () => {
-      outlet.setCity(validPayload.city);
-      expect(outlet.getCity()).toBe(validPayload.city);
+      outlet.setCity(validPayloadOutlet.city);
+      expect(outlet.getCity()).toBe(validPayloadOutlet.city);
     });
 
     it("should update province when valid", () => {
-      outlet.setProvince(validPayload.province);
-      expect(outlet.getProvince()).toBe(validPayload.province);
+      outlet.setProvince(validPayloadOutlet.province);
+      expect(outlet.getProvince()).toBe(validPayloadOutlet.province);
     });
 
     it("should update postalCode when valid", () => {
-      outlet.setPostalCode(validPayload.postalCode);
-      expect(outlet.getPostalCode()).toBe(validPayload.postalCode);
+      outlet.setPostalCode(validPayloadOutlet.postalCode);
+      expect(outlet.getPostalCode()).toBe(validPayloadOutlet.postalCode);
     });
 
     it("should update country when valid", () => {
-      outlet.setCountry(validPayload.country);
-      expect(outlet.getCountry()).toBe(validPayload.country);
+      outlet.setCountry(validPayloadOutlet.country);
+      expect(outlet.getCountry()).toBe(validPayloadOutlet.country);
     });
 
     it("should update email when valid", () => {
-      outlet.setEmail(validPayload.email);
-      expect(outlet.getEmail()).toBe(validPayload.email);
+      outlet.setEmail(validPayloadOutlet.email);
+      expect(outlet.getEmail()).toBe(validPayloadOutlet.email);
     });
 
     it("should update phoneNumber when valid", () => {
-      outlet.setPhoneNumber(validPayload.phoneNumber);
-      expect(outlet.getPhoneNumber()).toBe(validPayload.phoneNumber);
+      outlet.setPhoneNumber(validPayloadOutlet.phoneNumber);
+      expect(outlet.getPhoneNumber()).toBe(validPayloadOutlet.phoneNumber);
     });
 
     it("should update openingHours when valid", () => {
-      outlet.setOpeningHours(validPayload.openingHours);
-      expect(outlet.getOpeningHours()).toBe(validPayload.openingHours);
+      outlet.setOpeningHours(validPayloadOutlet.openingHours);
+      expect(outlet.getOpeningHours()).toBe(validPayloadOutlet.openingHours);
     });
 
     it("should update isActive when valid", () => {
-      outlet.setIsActive(validPayload.isActive);
-      expect(outlet.getIsActive()).toBe(validPayload.isActive);
+      outlet.setIsActive(validPayloadOutlet.isActive);
+      expect(outlet.getIsActive()).toBe(validPayloadOutlet.isActive);
     });
 
     it("should update createdAt when valid", () => {
-      outlet.setCreatedAt(validPayload.createdAt);
-      expect(outlet.getCreatedAt()).toBe(validPayload.createdAt);
+      outlet.setCreatedAt(validPayloadOutlet.createdAt);
+      expect(outlet.getCreatedAt()).toBe(validPayloadOutlet.createdAt);
     });
 
     it("should update updatedAt when valid", () => {
-      outlet.setUpdatedAt(validPayload.updatedAt);
-      expect(outlet.getUpdatedAt()).toBe(validPayload.updatedAt);
+      outlet.setUpdatedAt(validPayloadOutlet.updatedAt);
+      expect(outlet.getUpdatedAt()).toBe(validPayloadOutlet.updatedAt);
     });
 
     it("should update deletedAt when valid", () => {
-      outlet.setDeletedAt(validPayload.deletedAt);
-      expect(outlet.getDeletedAt()).toBe(validPayload.deletedAt);
+      outlet.setDeletedAt(validPayloadOutlet.deletedAt);
+      expect(outlet.getDeletedAt()).toBe(validPayloadOutlet.deletedAt);
     });
   });
 

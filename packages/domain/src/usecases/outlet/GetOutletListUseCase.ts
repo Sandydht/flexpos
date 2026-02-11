@@ -1,4 +1,5 @@
 import { OutletItem, StoreItem, UserItem } from "../../entities/entities";
+import { PaginatedResult } from "../../entities/utils/PaginatedResult";
 import { PaginationQuery } from "../../entities/utils/PaginationQuery";
 import OutletRepository from "../../repositories/OutletRepository";
 
@@ -11,7 +12,7 @@ class GetOutletListUseCase {
 
   async execute(
     params: PaginationQuery,
-  ): Promise<OutletItem<StoreItem<UserItem>>> {
+  ): Promise<PaginatedResult<OutletItem<StoreItem<UserItem>>>> {
     return await this.outletRepository.getOutletList(params);
   }
 }

@@ -2,6 +2,7 @@ import { fixtures } from "../../../test/fixtures";
 import { storeFixture } from "../../../test/fixtures/storeFixture";
 import { userFixture } from "../../../test/fixtures/userFixture";
 import { UpdateStore, UserItem } from "../../entities";
+import { makeUserItemPayload } from "../../user/test/userEntityFactory";
 import AddStore from "../AddStore";
 import StoreItem from "../StoreItem";
 
@@ -20,29 +21,11 @@ export const makeAddStorePayload = (
 };
 
 export const makeStoreItemPayload = (
-  override?: Partial<{
-    user: Partial<ReturnType<typeof userFixture>>;
-    store: Partial<ReturnType<typeof storeFixture>>;
-  }>,
+  override?: Partial<ReturnType<typeof storeFixture>>,
 ): StoreItem<UserItem> => {
-  const { user, store } = fixtures({
-    user: override?.user,
-    store: override?.store,
-  });
+  const { store } = fixtures({ store: override });
 
-  const userItem: UserItem = new UserItem(
-    user.id,
-    user.photoUrl,
-    user.username,
-    user.email,
-    user.phoneNumber,
-    user.fullName,
-    user.address,
-    user.roles,
-    user.createdAt,
-    user.updatedAt,
-    user.deletedAt,
-  );
+  const userItem: UserItem = makeUserItemPayload();
 
   return new StoreItem<UserItem>(
     store.id,

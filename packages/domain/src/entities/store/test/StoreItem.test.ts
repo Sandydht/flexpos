@@ -37,21 +37,19 @@ describe("StoreItem entity", () => {
 
   describe("constructor error case", () => {
     it("should throw error when id is blank", () => {
-      expect(() => makeStoreItemPayload({ store: { id: "" } })).toThrowError(
+      expect(() => makeStoreItemPayload({ id: "" })).toThrowError(
         `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when name is blank", () => {
-      expect(() => makeStoreItemPayload({ store: { name: "" } })).toThrowError(
+      expect(() => makeStoreItemPayload({ name: "" })).toThrowError(
         `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
 
     it("should throw error when createdAt is blank", () => {
-      expect(() =>
-        makeStoreItemPayload({ store: { createdAt: "" } }),
-      ).toThrowError(
+      expect(() => makeStoreItemPayload({ createdAt: "" })).toThrowError(
         `${STORE_ITEM_ERROR_MESSAGE_KEY}.NOT_CONTAIN_NEEDED_PROPERTY`,
       );
     });
